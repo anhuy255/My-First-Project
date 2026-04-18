@@ -15,8 +15,9 @@ Bộ tài liệu tiếng Việt giúp chuẩn bị kỳ thi **PA State Board of 
 
 ## 📝 Đề thi thử
 
-- [Đề thi thử số 1](de-thi-thu-1.md)
-- [Đề thi thử số 2](de-thi-thu-2.md)
+- **[🔥 Làm bài trắc nghiệm tương tác (có chấm điểm)](quiz.html)** ← khuyên dùng
+- [Đề thi thử số 1 (dạng văn bản)](de-thi-thu-1.md)
+- [Đề thi thử số 2 (dạng văn bản)](de-thi-thu-2.md)
 
 ## 🎴 Thẻ ghi nhớ (Flashcards)
 

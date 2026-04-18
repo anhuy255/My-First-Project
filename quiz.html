@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đề Thi Thử — Nail PA</title>
+<style>
+  :root { --primary:#159957; --accent:#155799; --bg:#f6f8fa; --card:#fff; --text:#1a1a1a; --muted:#6a737d; --ok:#1a7f37; --bad:#cf222e; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+  header { background:linear-gradient(120deg,var(--accent),var(--primary)); color:#fff; padding:20px 16px; text-align:center; }
+  header h1 { margin:0 0 8px; font-size:1.3em; }
+  header a { color:#fff; text-decoration:underline; font-size:.9em; }
+  .container { max-width:640px; margin:0 auto; padding:16px; }
+  .pick { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+  .pick button, .ctrl button { padding:12px; border:1px solid var(--primary); background:#fff; color:var(--primary); border-radius:8px; font-size:1em; font-weight:600; cursor:pointer; }
+  .pick button:hover, .ctrl button:hover { background:var(--primary); color:#fff; }
+  .progress { display:flex; justify-content:space-between; color:var(--muted); font-size:.9em; margin-bottom:12px; }
+  .progressBar { height:6px; background:#e1e4e8; border-radius:3px; overflow:hidden; margin-bottom:16px; }
+  .progressBar > span { display:block; height:100%; background:var(--primary); transition:width .3s; }
+  .q { background:var(--card); border:1px solid #d0d7de; border-radius:12px; padding:20px; margin-bottom:12px; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+  .q .qnum { color:var(--muted); font-size:.85em; font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+  .q .qtext { font-size:1.05em; font-weight:600; margin-bottom:12px; }
+  .opt { display:block; padding:12px 14px; border:1px solid #d0d7de; border-radius:8px; margin-bottom:8px; cursor:pointer; background:#fff; user-select:none; }
+  .opt:active { transform:scale(.99); }
+  .opt.selected { background:var(--primary); color:#fff; border-color:var(--primary); }
+  .opt .letter { font-weight:700; margin-right:8px; }
+  .opt.correct { background:#dafbe1; border-color:var(--ok); color:var(--ok); }
+  .opt.wrong { background:#ffebe9; border-color:var(--bad); color:var(--bad); }
+  .ctrl { display:flex; gap:8px; margin-top:8px; }
+  .ctrl button { flex:1; }
+  .ctrl button:disabled { opacity:.4; cursor:not-allowed; background:#fff; color:var(--muted); border-color:#d0d7de; }
+  .result { background:var(--card); border:1px solid #d0d7de; border-radius:12px; padding:24px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+  .score { font-size:3em; font-weight:700; color:var(--primary); margin:8px 0; }
+  .status.pass { color:var(--ok); font-weight:700; font-size:1.2em; }
+  .status.fail { color:var(--bad); font-weight:700; font-size:1.2em; }
+  .review { margin-top:16px; }
+  .review h2 { font-size:1.1em; margin:20px 0 10px; }
+  .rv { background:#fff; border:1px solid #d0d7de; border-radius:8px; padding:12px 14px; margin-bottom:8px; font-size:.95em; }
+  .rv .rvq { font-weight:600; margin-bottom:6px; }
+  .rv .rvline { margin:4px 0; }
+  .rv .exp { color:var(--muted); font-style:italic; margin-top:6px; font-size:.9em; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📝 Đề Thi Thử — Nail PA</h1>
+  <a href="index.html">← Về trang chủ</a>
+</header>
+<div class="container">
+
+  <!-- Start screen -->
+  <div id="startScreen">
+    <p>Chọn đề thi thử để bắt đầu. Mỗi đề gồm <strong>50 câu</strong>, điểm đậu <strong>≥ 75%</strong> (38/50).</p>
+    <div class="pick">
+      <button onclick="start(1)">Bắt đầu Đề Thi Thử Số 1</button>
+      <button onclick="start(2)">Bắt đầu Đề Thi Thử Số 2</button>
+    </div>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quizScreen" class="hidden">
+    <div class="progress">
+      <span id="progressText">1 / 50</span>
+      <span id="answeredText">0 đã chọn</span>
+    </div>
+    <div class="progressBar"><span id="progressFill" style="width:2%"></span></div>
+    <div class="q" id="questionCard">
+      <div class="qnum" id="qnum">Câu 1</div>
+      <div class="qtext" id="qtext">...</div>
+      <div id="opts"></div>
+    </div>
+    <div class="ctrl">
+      <button id="prevBtn" onclick="prev()">◀ Trước</button>
+      <button id="nextBtn" onclick="next()">Sau ▶</button>
+    </div>
+    <div class="ctrl" style="margin-top:8px;">
+      <button id="submitBtn" onclick="submit()">Nộp bài & xem kết quả</button>
+    </div>
+  </div>
+
+  <!-- Result screen -->
+  <div id="resultScreen" class="hidden">
+    <div class="result">
+      <div style="color:var(--muted);font-size:.9em;">ĐIỂM CỦA BẠN</div>
+      <div class="score"><span id="scoreNum">0</span>/50</div>
+      <div id="scorePct">0%</div>
+      <div id="statusLine" class="status"></div>
+    </div>
+    <div class="review">
+      <h2>Xem lại tất cả 50 câu</h2>
+      <div id="reviewList"></div>
+    </div>
+    <div class="ctrl">
+      <button onclick="reset()">Làm đề khác</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUIZ_1 = [
+  {q:'Cấp độ cao nhất trong ba cấp độ làm sạch là gì?',opts:['Cleaning (làm sạch)','Disinfection (khử trùng)','Sterilization (tiệt trùng)','Sanitation (vệ sinh thường)'],a:2,e:'Sterilization diệt mọi vi sinh vật kể cả bào tử — cấp cao nhất. Tiệm nail chỉ cần disinfection.'},
+  {q:'Dung dịch dùng để khử trùng dụng cụ trong tiệm nail tại PA phải là?',opts:['Xà phòng rửa chén','Nước muối','Chất khử trùng EPA hospital-grade','Nước chanh'],a:2,e:'PA yêu cầu EPA-registered hospital-grade, diệt khuẩn/virus/nấm.'},
+  {q:'Thời gian tối thiểu ngâm dụng cụ trong dung dịch disinfectant thường là?',opts:['2 phút','5 phút','10 phút','30 phút'],a:2,e:'Hầu hết quat disinfectant cần ngâm 10 phút.'},
+  {q:'Virus viêm gan B (HBV) có thể sống trên bề mặt khô đến?',opts:['1 giờ','24 giờ','3 ngày','7 ngày'],a:3,e:'HBV sống tới 7 ngày trên bề mặt khô — lý do phải khử trùng kỹ.'},
+  {q:'"BBP" viết tắt của?',opts:['Bacterial Blood Pathogen','Bloodborne Pathogens','Basic Biohazard Protocol','Biological Bacteria Protection'],a:1,e:'BBP = Bloodborne Pathogens — mầm bệnh lây qua đường máu.'},
+  {q:'Bồn ngâm chân phải được khử trùng giữa hai khách trong ít nhất?',opts:['5 phút','10 phút','15 phút','30 phút'],a:1,e:'Giữa hai khách, bồn chân phải chạy disinfectant 10 phút.'},
+  {q:'Dụng cụ nào dưới đây phải bỏ sau mỗi khách?',opts:['Kềm kim loại','Que gỗ cam (orangewood stick)','Kéo cắt móng','Pusher kim loại'],a:1,e:'Que gỗ cam xốp, không khử trùng được → single-use.'},
+  {q:'Thời gian rửa tay bằng xà phòng và nước nên kéo dài ít nhất?',opts:['5 giây','10 giây','20 giây','60 giây'],a:2,e:'CDC khuyến nghị tối thiểu 20 giây.'},
+  {q:'Virus gây mụn cóc (wart / verruca) là?',opts:['HIV','HBV','HPV','HCV'],a:2,e:'HPV (Human Papillomavirus) gây mụn cóc.'},
+  {q:'Khi khách bị chảy máu trong lúc làm dịch vụ, việc đầu tiên thợ nên làm là?',opts:['Tiếp tục dịch vụ','Đeo găng tay dùng-một-lần','Rửa nước liên tục','Sơn đè lên vết thương'],a:1,e:'Luôn đeo găng trước khi chạm vào máu.'},
+  {q:'Khăn bẩn trong tiệm nail nên được giặt ở nhiệt độ ít nhất?',opts:['100°F','120°F','160°F','200°F'],a:2,e:'Giặt ở ≥ 160°F (71°C) để diệt mầm bệnh.'},
+  {q:'Điểm đậu mỗi phần của kỳ thi Nail Technician tại PA là?',opts:['60%','70%','75%','80%'],a:2,e:'Cả lý thuyết và thực hành cần ≥ 75%.'},
+  {q:'Số giờ học tối thiểu cho chương trình Nail Technician tại PA là?',opts:['100 giờ','150 giờ','200 giờ','300 giờ'],a:2,e:'Nail Technician PA yêu cầu 200 giờ.'},
+  {q:'Bằng Nail Technician tại PA có hiệu lực trong bao lâu?',opts:['1 năm','2 năm','3 năm','5 năm'],a:1,e:'Bằng hiệu lực 2 năm.'},
+  {q:'Tuổi tối thiểu để được thi lấy bằng Nail Technician tại PA là?',opts:['14','16','18','21'],a:1,e:'Tối thiểu 16 tuổi, kèm tối thiểu lớp 10.'},
+  {q:'Hóa chất nào bị CẤM trong sản phẩm acrylic tại PA?',opts:['EMA (ethyl methacrylate)','MMA (methyl methacrylate)','Benzoyl peroxide','Acetone'],a:1,e:'MMA bị cấm — gây dị ứng nặng, hỏng móng.'},
+  {q:'Dao cạo gót chân (credo blade) tại PA:',opts:['Được phép dùng','Chỉ dùng cho khách nam','Bị cấm tuyệt đối','Cần có giấy phép riêng'],a:2,e:'PA cấm credo blade tuyệt đối; chỉ dùng đá nhám single-use.'},
+  {q:'Tài liệu SDS (Safety Data Sheet) cung cấp thông tin về?',opts:['Giá bán sản phẩm','Thông tin an toàn hóa chất và xử lý sự cố','Lịch bảo trì thiết bị','Lịch đặt khách'],a:1,e:'SDS gồm thông tin an toàn, sơ cứu, bảo quản, xử lý tràn.'},
+  {q:'Ba đường vào cơ thể của hóa chất trong tiệm nail là?',opts:['Hít, nuốt, tiêm','Hít, thấm qua da, nuốt','Thấm qua da, tiêm, qua mắt','Hít, tiêm, qua mắt'],a:1,e:'Ba đường: inhalation, absorption, ingestion.'},
+  {q:'Ổ điện gần bồn chân (pedicure spa) bắt buộc phải có?',opts:['GFCI','UPS','Cổng USB','Cầu chì đơn giản'],a:0,e:'GFCI ngắt điện khi có rò rỉ — bắt buộc ở ổ gần nước.'},
+  {q:'Móng tay được cấu tạo chủ yếu từ protein nào?',opts:['Collagen','Melanin','Keratin','Sebum'],a:2,e:'Móng và tóc cấu tạo từ keratin.'},
+  {q:'Nơi duy nhất sản sinh tế bào móng mới là?',opts:['Nail bed','Matrix','Cuticle','Free edge'],a:1,e:'Matrix là nơi duy nhất sinh tế bào móng mới.'},
+  {q:'Phần trắng hình lưỡi liềm ở gốc móng, là phần có thể thấy được của matrix, gọi là?',opts:['Lunula','Cuticle','Hyponychium','Eponychium'],a:0,e:'Lunula = phần matrix nhìn thấy.'},
+  {q:'Chức năng chính của cuticle là?',opts:['Sản xuất tế bào móng','Bảo vệ matrix khỏi vi khuẩn','Cung cấp máu cho móng','Tạo cảm giác cho đầu ngón'],a:1,e:'Cuticle chặn vi khuẩn/ẩm vào matrix.'},
+  {q:'Tốc độ mọc móng tay trung bình khoảng bao nhiêu mm/tháng?',opts:['1 mm','3 mm','6 mm','10 mm'],a:1,e:'Khoảng 3 mm/tháng; móng chân chậm hơn.'},
+  /* Q1_BATCH_A */
+  {q:'Lớp nào của biểu bì chứa melanin — sắc tố quyết định màu da?',opts:['Stratum corneum','Stratum granulosum','Stratum germinativum (basale)','Stratum lucidum'],a:2,e:'Stratum germinativum — lớp đáy, chứa tế bào tạo melanin.'},
+  {q:'Tuyến dầu (sebaceous glands) KHÔNG có ở vùng nào trên cơ thể?',opts:['Mặt','Lưng','Lòng bàn tay và lòng bàn chân','Cổ'],a:2,e:'Lòng bàn tay/chân không có tuyến dầu.'},
+  {q:'Lớp da nào chứa mạch máu và dây thần kinh?',opts:['Epidermis','Dermis','Stratum corneum','Không lớp da nào có mạch máu'],a:1,e:'Chỉ dermis có mạch máu và dây thần kinh; epidermis không.'},
+  {q:'Onychomycosis là bệnh gì?',opts:['Móng cắn','Nấm móng','Móng thâm tím','Móng giòn'],a:1,e:'Onychomycosis = nấm móng.'},
+  {q:'Paronychia là gì?',opts:['Nấm móng','Viêm nhiễm quanh móng','Móng cong vào trong','Móng dày bất thường'],a:1,e:'Paronychia = viêm quanh móng.'},
+  {q:'Đốm màu xanh lục dưới móng giả thường do vi khuẩn nào gây ra?',opts:['Staphylococcus aureus','Pseudomonas aeruginosa','HIV','Candida'],a:1,e:'Đốm xanh do Pseudomonas aeruginosa.'},
+  {q:'Thuật ngữ "leukonychia" mô tả tình trạng gì?',opts:['Móng màu đen','Móng có đốm trắng','Móng cong','Móng mềm'],a:1,e:'Leuko- = trắng; -nychia = móng → đốm trắng.'},
+  {q:'Mụn cóc quanh móng (verruca) do virus nào gây ra?',opts:['HIV','HBV','HPV','HSV'],a:2,e:'Mụn cóc do HPV.'},
+  {q:'Khi thấy khách có dấu hiệu nhiễm trùng ở móng, thợ nail nên?',opts:['Tiếp tục cẩn thận','Chẩn đoán bệnh','Từ chối lịch sự và khuyên đi bác sĩ','Dùng nhiều disinfectant'],a:2,e:'Thợ không chẩn đoán, chỉ từ chối và khuyên khách đi bác sĩ.'},
+  {q:'Đường lõm ngang trên móng do sốt cao, chấn thương matrix hoặc bệnh hệ thống được gọi là?',opts:["Beau's lines",'Longitudinal ridges','Pterygium','Leukonychia'],a:0,e:"Beau's lines — đường lõm ngang."},
+  {q:'Dũa có độ nhám (grit) 180 phù hợp để dũa?',opts:['Móng giả thô','Móng tự nhiên','Bề mặt kim loại','Bề mặt đá'],a:1,e:'Grit 180 cho móng tự nhiên; 80–100 cho móng giả.'},
+  {q:'Loại đèn nào làm khô gel nhanh hơn?',opts:['Đèn huỳnh quang','Đèn UV truyền thống','Đèn LED','Đèn halogen'],a:2,e:'LED khô 30–60s, nhanh hơn UV (1–2 phút).'},
+  {q:'Dụng cụ nào dưới đây là multi-use và có thể khử trùng để tái sử dụng?',opts:['Que gỗ cam','Đá dũa bằng gỗ','Kềm cắt da kim loại','Buffer xốp'],a:2,e:'Kềm kim loại không xốp → multi-use; 3 lựa chọn kia đều xốp.'},
+  {q:'Bước đầu tiên trong quy trình manicure cơ bản (sau khi tư vấn) là?',opts:['Sơn móng','Ngâm tay','Tháo sơn cũ','Đẩy cuticle'],a:2,e:'Sau tư vấn, bước đầu là tháo sơn cũ.'},
+  {q:'Khi dũa móng tự nhiên, kỹ thuật đúng là?',opts:['Dũa tới lui nhanh','Dũa một chiều, từ ngoài vào trong','Dũa theo hình tròn','Dũa bất kỳ hướng nào'],a:1,e:'Dũa một chiều tránh móng tróc lớp.'},
+  {q:'Thứ tự ba lớp sơn móng chuẩn là?',opts:['Top – color – base','Base – color – top','Color – base – color','Base – top – color'],a:1,e:'Thứ tự: Base → Color → Top.'},
+  {q:'Loại manicure nào không ngâm nước, phù hợp để chuẩn bị móng trước khi đắp acrylic/gel?',opts:['Spa manicure','Paraffin manicure','Dry / reconditioning manicure','French manicure'],a:2,e:'Dry manicure không ngâm nước — móng không nở, gel/acrylic bám tốt.'},
+  {q:'Để tránh móng mọc ngược (ingrown nail), móng chân nên được cắt như thế nào?',opts:['Cong theo viền ngón','Càng ngắn càng tốt','Thẳng ngang','Bo sâu hai bên'],a:2,e:'Cắt thẳng ngang tránh móng đâm thịt.'},
+  {q:'Với khách đang mang thai, nên tránh massage mạnh ở vùng nào?',opts:['Vai','Mắt cá chân và bắp chân','Đỉnh đầu','Bàn tay'],a:1,e:'Huyệt ở mắt cá/bắp chân có thể kích thích co tử cung.'},
+  {q:'Với khách bị tiểu đường, nước ngâm chân nên ở mức?',opts:['Rất nóng (>110°F)','Ấm nhẹ','Lạnh','Không thể làm pedicure'],a:1,e:'Tiểu đường → tuần hoàn kém, chỉ dùng nước ấm nhẹ.'},
+  {q:'Phản ứng giữa acrylic monomer (liquid) và polymer (powder) được gọi là?',opts:['Hydration','Polymerization','Oxidation','Dehydration'],a:1,e:'Monomer + polymer → polymerization → acrylic cứng.'},
+  {q:'Acetone thuộc loại hóa chất nào?',opts:['Axit mạnh','Base mạnh','Dung môi (solvent) dễ cháy','Chất khử trùng y tế'],a:2,e:'Acetone là dung môi, dễ bay hơi, dễ cháy.'},
+  {q:'Thành phần chính của primer có axit (acid primer) là?',opts:['Acetone','Methacrylic acid','Ethyl acetate','Citric acid'],a:1,e:'Acid primer chứa methacrylic acid — ăn da.'},
+  {q:'Cách tháo acrylic đúng và an toàn là?',opts:['Giật bằng tay hoặc nhíp','Quấn bông acetone 100% + foil 10–15 phút','Đun nóng móng','Cạy bằng dao'],a:1,e:'Acetone + foil 10–15 phút; không giật sẽ làm tổn thương móng thật.'},
+  {q:'Khi khách có khiếu nại về dịch vụ, bước đầu tiên thợ nên làm là?',opts:['Tranh cãi để bảo vệ mình','Lắng nghe hết ý kiến của khách','Gọi chủ tiệm đuổi khách','Bỏ đi chỗ khác'],a:1,e:'Quy trình xử lý: Lắng nghe → Thừa nhận → Xin lỗi → Giải quyết.'},
+  /* Q1_BATCH_B */
+];
+const QUIZ_2 = [
+  {q:'Phương pháp tiệt trùng (sterilization) duy nhất được dùng trong y tế là?',opts:['Ngâm alcohol 70%','Nồi hấp autoclave','Phơi nắng','Ngâm nước sôi 5 phút'],a:1,e:'Autoclave là phương pháp tiệt trùng chuẩn trong y tế.'},
+  {q:'Hand sanitizer (nước rửa tay khô) có tác dụng khi nồng độ alcohol ít nhất là?',opts:['30%','45%','60%','90%'],a:2,e:'Cần ≥ 60% alcohol để diệt vi khuẩn/virus hiệu quả.'},
+  {q:'Sản phẩm nào có thể diệt cả bào tử vi khuẩn?',opts:['Sanitizer','Disinfectant','Sterilant','Detergent'],a:2,e:'Chỉ sterilant diệt được bào tử.'},
+  {q:'Sau mỗi khách, mặt bàn manicure phải được?',opts:['Lau bằng khăn khô','Lau bằng dung dịch disinfectant EPA','Phủ thêm một tờ giấy','Để yên đến cuối ngày'],a:1,e:'Lau bằng EPA disinfectant sau mỗi khách.'},
+  {q:'Khi nào phải thay dung dịch disinfectant trong bình ngâm dụng cụ?',opts:['Mỗi 7 ngày','Mỗi 30 ngày','Khi đục, bẩn hoặc hàng ngày','Không cần thay'],a:2,e:'Thay khi đục/bẩn hoặc theo nhà sản xuất (thường hàng ngày).'},
+  {q:'Virus HIV có đặc điểm gì khác so với HBV?',opts:['HIV sống lâu hơn ngoài không khí','HIV rất yếu và chết nhanh ngoài cơ thể','HIV không lây qua máu','HIV lây qua không khí'],a:1,e:'HIV yếu ngoài cơ thể, HBV sống được 7 ngày.'},
+  {q:'Đường lây viêm gan B (HBV) phổ biến nhất trong tiệm nail là?',opts:['Hít hơi acrylic','Dụng cụ dính máu không khử trùng','Uống chung nước','Bắt tay'],a:1,e:'HBV lây qua dụng cụ dính máu không khử trùng.'},
+  {q:'"Consultation" trong manicure là bước để?',opts:['Ký hợp đồng dài hạn','Hỏi yêu cầu khách và kiểm tra sức khỏe móng/da','Định giá dịch vụ','Đo huyết áp khách'],a:1,e:'Consultation = hỏi yêu cầu + kiểm tra sức khỏe móng/da.'},
+  {q:'Găng tay phù hợp khi xử lý vết chảy máu của khách là?',opts:['Găng vải bảo hộ','Găng cao su rửa chén','Găng dùng-một-lần (nitrile/latex)','Không cần găng'],a:2,e:'Luôn dùng găng dùng-một-lần khi tiếp xúc máu.'},
+  {q:'Dung dịch tẩy bleach pha để khử trùng có tỷ lệ?',opts:['1% bleach / 99% nước','10% bleach / 90% nước','50% / 50%','100% bleach'],a:1,e:'Pha 10% bleach + 90% nước, thay 24h.'},
+  {q:'Chu kỳ gia hạn bằng Nail Technician tại PA là?',opts:['Hàng năm','2 năm','3 năm','5 năm'],a:1,e:'Bằng PA hiệu lực 2 năm.'},
+  {q:'Bằng hành nghề tại PA phải được?',opts:['Giữ ở nhà','Treo công khai tại nơi làm việc','Chỉ đưa khi thanh tra','Scan gửi email'],a:1,e:'Treo công khai, nhìn thấy rõ.'},
+  {q:'Nail Technician tại PA KHÔNG được phép làm dịch vụ nào?',opts:['Làm móng giả','Vẽ nail art','Cắt tóc','Massage tay chân thẩm mỹ'],a:2,e:'Cắt tóc thuộc cosmetologist, không phải nail tech.'},
+  {q:'Hội đồng thẩm mỹ PA có quyền?',opts:['Thanh tra tiệm đột xuất','Cấp thị thực nhập cư','Điều trị bệnh nhân','Quản lý thuế'],a:0,e:'Hội đồng có quyền thanh tra đột xuất trong giờ làm.'},
+  {q:'SDS (Safety Data Sheet) trong tiệm nail gồm bao nhiêu mục chuẩn?',opts:['6','10','16','24'],a:2,e:'SDS chuẩn OSHA/GHS gồm 16 mục.'},
+  {q:'Bình chữa cháy phù hợp nhất cho tiệm nail là loại?',opts:['Loại A','Loại B','Loại C','Loại ABC'],a:3,e:'ABC đa năng — giấy, chất lỏng, điện.'},
+  {q:'Khi hóa chất bắn vào mắt, bước đầu tiên là?',opts:['Dụi mắt','Rửa mắt bằng nước sạch ít nhất 15 phút','Đắp khăn nóng','Đeo kính đen'],a:1,e:'Rửa mắt ≥ 15 phút, rồi đến bác sĩ.'},
+  {q:'Khẩu trang nên dùng khi dũa móng giả tạo nhiều bụi là?',opts:['Khẩu trang giấy y tế','Khẩu trang vải','Khẩu trang N95','Không cần'],a:2,e:'N95 lọc được bụi mịn khi dũa móng giả.'},
+  {q:'Hóa chất dễ cháy trong tiệm phải bảo quản?',opts:['Gần bếp điện','Trên bậu cửa sổ nắng','Nơi thoáng mát, xa nhiệt và ánh nắng','Ngăn kéo kín không thông gió'],a:2,e:'Xa nguồn nhiệt, ánh nắng; thoáng mát.'},
+  {q:'Khi ổ điện gần bồn chân bị tia lửa, thợ nên?',opts:['Đổ nước dập','Tắt cầu dao/rút nguồn, di tản, gọi giúp','Bỏ qua','Dùng khăn ướt chạm vào ổ'],a:1,e:'Không đổ nước lên điện; ngắt nguồn trước.'},
+  {q:'Móng chân mọc so với móng tay thì?',opts:['Nhanh gấp đôi','Bằng nhau','Chậm hơn 2–3 lần','Không mọc'],a:2,e:'Móng chân chậm hơn móng tay 2–3 lần.'},
+  {q:'Hyponychium nằm ở?',opts:['Trên đĩa móng','Dưới đầu free edge','Hai bên móng','Lòng bàn tay'],a:1,e:'Hyponychium ở dưới free edge, chặn vi khuẩn.'},
+  {q:'"Free edge" là phần nào của móng?',opts:['Gốc móng','Phần móng dài qua đầu ngón','Lưỡi liềm trắng','Da sống bên móng'],a:1,e:'Free edge = phần móng dài qua đầu ngón.'},
+  {q:'Thời gian móng tay thay mới hoàn toàn là?',opts:['1–2 tuần','1 tháng','4–6 tháng','1 năm'],a:2,e:'Móng tay thay mới trong 4–6 tháng.'},
+  {q:'Lớp da nào là lớp dày nhất và chứa nang lông, mạch máu, dây thần kinh?',opts:['Epidermis','Dermis','Subcutaneous','Stratum corneum'],a:1,e:'Dermis là lớp dày nhất, có mạch máu/thần kinh.'},
+  /* Q2_BATCH_A */
+  {q:'Tên tiếng Anh của tuyến mồ hôi là?',opts:['Sebaceous gland','Sudoriferous gland','Lacrimal gland','Mammary gland'],a:1,e:'Tuyến mồ hôi = sudoriferous gland.'},
+  {q:'Sebum (dầu) được tiết bởi?',opts:['Sudoriferous gland','Sebaceous gland','Matrix','Lymph node'],a:1,e:'Sebaceous gland tiết sebum.'},
+  {q:'"Onycholysis" là?',opts:['Móng dày bất thường','Móng tách khỏi nail bed từ free edge','Viêm quanh móng','Nấm móng'],a:1,e:'Onycholysis = móng tách rời nail bed.'},
+  {q:'Khi thấy khách bị pterygium nặng, thợ nên?',opts:['Cắt sâu cho sạch','Không cắt — khuyên bác sĩ da liễu','Đắp acrylic che','Ngâm acetone'],a:1,e:'Pterygium nặng có thể gây tổn thương vĩnh viễn — không cắt.'},
+  {q:'Đốm trắng "leukonychia" thường do?',opts:['Nhiễm trùng','Va đập nhẹ vào matrix','Thiếu máu','Thiếu nước'],a:1,e:'Leukonychia thường do va đập nhẹ, không nguy hiểm.'},
+  {q:'Khi nào thợ KHÔNG làm dịch vụ cho khách?',opts:['Đốm trắng leukonychia','Đường kẻ dọc do lão hóa','Dấu hiệu nhiễm trùng, sưng, mủ','Móng hơi vàng do sơn cũ'],a:2,e:'Nhiễm trùng/mủ → từ chối dịch vụ.'},
+  {q:'Ghẻ (scabies) do tác nhân nào gây ra?',opts:['Virus','Nấm','Ký sinh trùng (cái ghẻ)','Vi khuẩn'],a:2,e:'Scabies do ký sinh trùng cái ghẻ.'},
+  {q:'"Callus" là gì?',opts:['Da chai do ma sát','Mụn cóc do HPV','Viêm khớp','Một loại sơn móng'],a:0,e:'Callus = da chai dày, thường ở gót chân.'},
+  {q:'"Onychauxis" mô tả?',opts:['Móng mọc ngược','Móng dày bất thường','Móng mỏng','Móng mềm'],a:1,e:'Onychauxis = móng dày.'},
+  {q:'Buffer 3 mặt thường đi theo thứ tự?',opts:['Bóng → mịn → nhám','Nhám → mịn → bóng','Chỉ dùng mặt bóng','Không có thứ tự'],a:1,e:'Buffer: nhám → mịn → bóng.'},
+  {q:'Dũa kim loại có thể được?',opts:['Bỏ sau mỗi khách','Làm sạch và khử trùng tái sử dụng','Dùng cho nhiều khách không cần xử lý','Rửa nước là đủ'],a:1,e:'Dũa kim loại multi-use — khử trùng và tái dùng.'},
+  {q:'Toe separator bằng bọt xốp thuộc loại?',opts:['Multi-use','Single-use','Ngâm disinfectant','Dùng đến khi rách'],a:1,e:'Toe separator xốp là single-use.'},
+  {q:'Sau khi sơn color coat, lớp tiếp theo là?',opts:['Base coat','Cuticle oil','Top coat','Primer'],a:2,e:'Thứ tự: base → color → top coat.'},
+  {q:'Hình dáng móng có đầu rất nhọn, dài, được gọi là?',opts:['Square','Stiletto','Squoval','Round'],a:1,e:'Stiletto = dài, đầu nhọn.'},
+  {q:'Đặc điểm của French manicure là?',opts:['Sơn toàn móng đỏ','Móng chân màu hồng','Nền trong/hồng + free edge trắng (smile line)','Không sơn, chỉ buffer'],a:2,e:'French = nền + đầu móng trắng tạo smile line.'},
+  {q:'Khi làm pedicure, massage tay-chân tiêu chuẩn kéo dài khoảng?',opts:['30 giây','3–5 phút','15 phút','30 phút'],a:1,e:'Massage chuẩn 3–5 phút.'},
+  {q:'Khi pedicure, sau khi ngâm chân, bước tiếp theo là?',opts:['Sơn ngay','Lau khô chân rồi cắt và dũa móng','Massage chân','Đắp parafin'],a:1,e:'Ngâm xong → lau khô → cắt/dũa.'},
+  {q:'Nhiệt độ nước ngâm chân tiêu chuẩn là?',opts:['20–25°C','37–40°C (100–104°F)','50–55°C','Càng nóng càng tốt'],a:1,e:'Nước ngâm 37–40°C.'},
+  {q:'Gel polish tháo đúng cách bằng?',opts:['Giật tay','Mài hết bằng e-file','Dũa top → bông acetone + foil 10–15 phút','Ngâm nước ấm'],a:2,e:'Dũa top rồi acetone + foil 10–15 phút.'},
+  {q:'Chu kỳ fill-in (bảo trì) móng giả đề nghị là?',opts:['Mỗi tuần','Mỗi 2–3 tuần','Mỗi 6 tháng','Không cần fill'],a:1,e:'Fill-in mỗi 2–3 tuần.'},
+  {q:'Cọ acrylic (acrylic brush) nên được làm sạch bằng?',opts:['Ngâm disinfectant','Nước và xà phòng','Monomer (acrylic liquid)','Acetone 100%'],a:2,e:'Cọ acrylic làm sạch bằng monomer; disinfectant làm hư cọ.'},
+  {q:'Primer trong acrylic được bôi?',opts:['Khắp bàn tay','Chỉ trên móng, tránh da, một lớp mỏng','Cả móng và cuticle','Sau khi đắp acrylic'],a:1,e:'Primer chỉ chấm trên móng, lớp mỏng.'},
+  {q:'Khi khách bị đốm xanh Pseudomonas dưới móng giả, thợ nên?',opts:['Fill đè lên','Sơn đậm che','Tháo, không đắp lại, khuyên bác sĩ','Mài mạnh'],a:2,e:'Green nail → tháo móng giả, khuyên bác sĩ.'},
+  {q:'Quyền riêng tư của khách phải được?',opts:['Chia sẻ để quảng cáo','Đăng mạng xã hội','Giữ bí mật','Bán cho công ty tiếp thị'],a:2,e:'Thông tin khách phải giữ bí mật — đạo đức nghề nghiệp.'},
+  {q:'Khi khách khiếu nại, thứ tự xử lý đúng là?',opts:['Tranh cãi → xin lỗi → bỏ đi','Lắng nghe → thừa nhận → xin lỗi → đề xuất giải pháp','Gọi bảo vệ đuổi khách','Đổ lỗi cho khách'],a:1,e:'4 bước: lắng nghe, thừa nhận, xin lỗi, đề xuất giải pháp.'},
+  /* Q2_BATCH_B */
+];
+
+let quiz = [];
+let answers = [];
+let idx = 0;
+let currentQuizNum = 0;
+
+function start(n) {
+  currentQuizNum = n;
+  quiz = n === 1 ? QUIZ_1 : QUIZ_2;
+  answers = new Array(quiz.length).fill(null);
+  idx = 0;
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  render();
+}
+
+function render() {
+  const q = quiz[idx];
+  document.getElementById('qnum').textContent = 'Câu ' + (idx + 1);
+  document.getElementById('qtext').textContent = q.q;
+  const opts = document.getElementById('opts');
+  opts.innerHTML = '';
+  ['A','B','C','D'].forEach((letter, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'opt' + (answers[idx] === i ? ' selected' : '');
+    btn.innerHTML = '<span class="letter">' + letter + '.</span>' + q.opts[i];
+    btn.onclick = () => select(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('progressText').textContent = (idx + 1) + ' / ' + quiz.length;
+  const answered = answers.filter(a => a !== null).length;
+  document.getElementById('answeredText').textContent = answered + ' đã chọn';
+  document.getElementById('progressFill').style.width = ((idx + 1) / quiz.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === quiz.length - 1;
+}
+
+function select(i) {
+  answers[idx] = i;
+  render();
+}
+
+function next() { if (idx < quiz.length - 1) { idx++; render(); } }
+function prev() { if (idx > 0) { idx--; render(); } }
+
+function submit() {
+  const unanswered = answers.filter(a => a === null).length;
+  if (unanswered > 0 && !confirm('Còn ' + unanswered + ' câu chưa trả lời. Vẫn nộp?')) return;
+  let score = 0;
+  quiz.forEach((q, i) => { if (answers[i] === q.a) score++; });
+  const pct = Math.round(score / quiz.length * 100);
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scorePct').textContent = pct + '%';
+  const status = document.getElementById('statusLine');
+  if (score >= 38) { status.textContent = '✅ ĐẬU (≥ 75%)'; status.className = 'status pass'; }
+  else { status.textContent = '❌ CHƯA ĐẬU — Cần ≥ 38/50'; status.className = 'status fail'; }
+  const rv = document.getElementById('reviewList');
+  rv.innerHTML = '';
+  quiz.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'rv';
+    const userAns = answers[i] === null ? '—' : 'ABCD'[answers[i]];
+    const correctLetter = 'ABCD'[q.a];
+    const isCorrect = answers[i] === q.a;
+    div.innerHTML =
+      '<div class="rvq">Câu ' + (i + 1) + '. ' + q.q + '</div>' +
+      '<div class="rvline">Bạn chọn: <strong style="color:' + (isCorrect ? 'var(--ok)' : 'var(--bad)') + '">' + userAns + '</strong> — Đáp án đúng: <strong style="color:var(--ok)">' + correctLetter + '</strong></div>' +
+      '<div class="exp">' + q.e + '</div>';
+    rv.appendChild(div);
+  });
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+function reset() {
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('startScreen').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

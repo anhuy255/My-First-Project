@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thi Thực Hành — Nail PA</title>
+<style>
+  :root { --primary:#159957; --accent:#155799; --bg:#f6f8fa; --card:#fff; --text:#1a1a1a; --muted:#6a737d; --border:#d0d7de; --ok:#1a7f37; --bad:#cf222e; --warn:#bf8700; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  a { color:var(--accent); text-decoration:none; }
+  header { background:linear-gradient(135deg,var(--accent),var(--primary)); color:#fff; padding:32px 20px 28px; text-align:center; }
+  header h1 { margin:0 0 6px; font-size:1.6em; font-weight:800; }
+  header p { margin:0 0 14px; opacity:.95; font-size:1em; }
+  header .back { color:#fff; text-decoration:underline; font-size:.9em; }
+  .container { max-width:760px; margin:0 auto; padding:16px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:14px; }
+  .stat { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22); border-radius:10px; padding:10px; text-align:center; font-size:.85em; }
+  .stat b { display:block; font-size:1.35em; font-weight:700; }
+
+  /* Table of contents */
+  .toc { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:18px 0 24px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+  .toc h3 { margin:0 0 8px; font-size:.82em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+  .toc ol { margin:0; padding-left:20px; columns:1; }
+  .toc li { font-size:.95em; padding:3px 0; }
+  @media (min-width:560px) { .toc ol { columns:2; column-gap:20px; } }
+
+  /* Sections */
+  section { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px 22px; margin-bottom:16px; box-shadow:0 2px 6px rgba(0,0,0,.05); scroll-margin-top:12px; }
+  section.critical { border-left:5px solid var(--bad); background:linear-gradient(to right,#fff5f5,#fff 60%); }
+  section.warn { border-left:5px solid var(--warn); background:linear-gradient(to right,#fffbeb,#fff 60%); }
+  section h2 { margin:0 0 6px; font-size:1.25em; color:var(--primary); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  section.critical h2 { color:var(--bad); }
+  section.warn h2 { color:var(--warn); }
+  section .sub { color:var(--muted); font-size:.9em; margin:0 0 14px; }
+  section h3 { margin:16px 0 6px; font-size:1em; color:var(--text); }
+
+  /* Checklist items */
+  .check { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:6px; cursor:pointer; user-select:none; transition:background .1s; }
+  .check:hover { background:#f6f8fa; }
+  .check input { margin-top:3px; accent-color:var(--primary); width:18px; height:18px; flex-shrink:0; cursor:pointer; }
+  .check span { font-size:.95em; line-height:1.45; }
+  .check.done span { text-decoration:line-through; color:var(--muted); }
+  .check.critical input { accent-color:var(--bad); }
+
+  /* Callout */
+  .callout { background:#f0faf4; border:1px solid #c7e4d3; border-left:4px solid var(--primary); border-radius:8px; padding:12px 14px; margin:12px 0; font-size:.92em; }
+  .callout.bad { background:#fff5f5; border-color:#f4c2c7; border-left-color:var(--bad); }
+  .callout.warn { background:#fffbeb; border-color:#f0d98a; border-left-color:var(--warn); }
+  .callout b { color:inherit; }
+
+  .progress-bar { height:6px; background:#e1e4e8; border-radius:3px; overflow:hidden; margin:8px 0 18px; }
+  .progress-bar > span { display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--primary)); transition:width .3s; }
+  .progress-text { text-align:right; color:var(--muted); font-size:.85em; margin-top:-10px; margin-bottom:12px; }
+
+  .reset-btn { display:block; margin:24px auto 8px; padding:10px 18px; background:#fff; color:var(--muted); border:1px solid var(--border); border-radius:24px; font-size:.88em; cursor:pointer; }
+  .reset-btn:hover { color:var(--bad); border-color:var(--bad); }
+
+  footer { text-align:center; padding:24px 16px; color:var(--muted); font-size:.85em; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🧪 Thi Thực Hành Nail PA</h1>
+  <p>Hướng dẫn từng trạm, kit mang theo, và quy trình xử lý máu</p>
+  <a class="back" href="index.html">← Về trang chủ</a>
+  <div class="stats">
+    <div class="stat"><b>≈ 2h</b>Thời gian thi</div>
+    <div class="stat"><b>75%</b>Điểm đậu</div>
+    <div class="stat"><b>5</b>Trạm chính</div>
+    <div class="stat"><b>PSI</b>Đơn vị tổ chức</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="progress-bar"><span id="progressFill" style="width:0%"></span></div>
+  <div class="progress-text" id="progressText">0 / 0 đã tập</div>
+
+  <div class="toc">
+    <h3>Mục lục</h3>
+    <ol>
+      <li><a href="#overview">Tổng quan kỳ thi</a></li>
+      <li><a href="#kit">Kit cần mang</a></li>
+      <li><a href="#setup">Trạm 1 · Setup bàn</a></li>
+      <li><a href="#manicure">Trạm 2 · Manicure cơ bản</a></li>
+      <li><a href="#tip">Trạm 3 · Đắp tip / móng giả</a></li>
+      <li><a href="#polish">Trạm 4 · Sơn móng</a></li>
+      <li><a href="#blood">⚠️ Blood spill procedure</a></li>
+      <li><a href="#cleanup">Trạm 5 · Dọn dẹp cuối giờ</a></li>
+      <li><a href="#deductions">Lỗi trừ điểm thường gặp</a></li>
+      <li><a href="#tips">Mẹo đêm trước thi</a></li>
+    </ol>
+  </div>
+
+  <section id="overview">
+    <h2>📋 Tổng quan kỳ thi thực hành</h2>
+    <p class="sub">Kỳ thi do PSI Services tổ chức tại trung tâm thi được ủy quyền.</p>
+    <div class="callout">
+      <b>Điểm cốt lõi giám khảo chấm</b>: <br>
+      1. Vệ sinh &amp; khử trùng đúng quy trình (khoảng 40%) <br>
+      2. Kỹ thuật làm móng đúng chuẩn (khoảng 40%) <br>
+      3. An toàn cho khách (máu, hóa chất, dụng cụ) (khoảng 20%)
+    </div>
+    <p style="font-size:.93em; color:var(--muted); margin:10px 0 0;">Bạn sẽ có 1 người mẫu (model) thật hoặc mô hình tay — tùy trung tâm. Xác nhận khi đăng ký thi.</p>
+  </section>
+
+  <section id="kit">
+    <h2>🎒 Kit mang đến ngày thi</h2>
+    <p class="sub">Kiểm tra từng món <b>đêm trước</b>. Thiếu dụng cụ = không đủ điều kiện thi.</p>
+
+    <h3>Dụng cụ multi-use (trong hộp kín dán nhãn "DISINFECTED")</h3>
+    <label class="check"><input type="checkbox" data-k="kit1"><span>Kềm cắt da (cuticle nipper) — đã khử trùng</span></label>
+    <label class="check"><input type="checkbox" data-k="kit2"><span>Pusher kim loại — đã khử trùng</span></label>
+    <label class="check"><input type="checkbox" data-k="kit3"><span>Nail clipper — đã khử trùng</span></label>
+    <label class="check"><input type="checkbox" data-k="kit4"><span>Dũa 180 grit × 2 (loại khử trùng được)</span></label>
+    <label class="check"><input type="checkbox" data-k="kit5"><span>Cọ nail brush — đã khử trùng</span></label>
+    <label class="check"><input type="checkbox" data-k="kit6"><span>Fingerbowl (bát ngâm) — đã khử trùng</span></label>
+
+    <h3>Dụng cụ single-use (chưa mở)</h3>
+    <label class="check"><input type="checkbox" data-k="kit7"><span>Que gỗ cam × 4–6 cây</span></label>
+    <label class="check"><input type="checkbox" data-k="kit8"><span>Đá dũa / buffer xốp mới</span></label>
+    <label class="check"><input type="checkbox" data-k="kit9"><span>Bông gòn, khăn giấy</span></label>
+    <label class="check"><input type="checkbox" data-k="kit10"><span>Găng tay dùng-một-lần (nitrile/latex) — ít nhất 2 đôi</span></label>
+    <label class="check"><input type="checkbox" data-k="kit11"><span>Toe separator xốp (nếu thi pedicure)</span></label>
+
+    <h3>Hóa chất &amp; sản phẩm</h3>
+    <label class="check"><input type="checkbox" data-k="kit12"><span>Dung dịch disinfectant EPA + bình ngâm có nắp dán nhãn</span></label>
+    <label class="check"><input type="checkbox" data-k="kit13"><span>Polish remover (acetone hoặc non-acetone)</span></label>
+    <label class="check"><input type="checkbox" data-k="kit14"><span>Xà phòng tay nhẹ</span></label>
+    <label class="check"><input type="checkbox" data-k="kit15"><span>Cuticle remover + cuticle oil/cream</span></label>
+    <label class="check"><input type="checkbox" data-k="kit16"><span>Kem dưỡng tay (lotion) để massage</span></label>
+    <label class="check"><input type="checkbox" data-k="kit17"><span>Base coat · Color polish · Top coat</span></label>
+    <label class="check"><input type="checkbox" data-k="kit18"><span>Nail tips, nail glue (nếu có phần tip)</span></label>
+    <label class="check"><input type="checkbox" data-k="kit19"><span>Nail dehydrator / alcohol wipe</span></label>
+
+    <h3>Đồ an toàn &amp; xử lý sự cố (BẮT BUỘC)</h3>
+    <label class="check critical"><input type="checkbox" data-k="kit20"><span><b>Styptic powder</b> (không dùng styptic pencil — dùng chung = bẩn)</span></label>
+    <label class="check critical"><input type="checkbox" data-k="kit21"><span><b>Băng dính sạch</b> (bandages)</span></label>
+    <label class="check critical"><input type="checkbox" data-k="kit22"><span><b>Túi "biohazard"</b> màu đỏ hoặc dán nhãn rõ, có khóa kín</span></label>
+    <label class="check"><input type="checkbox" data-k="kit23"><span>Thùng rác nhỏ có nắp</span></label>
+    <label class="check"><input type="checkbox" data-k="kit24"><span>Khăn sạch × 3–4 cái</span></label>
+    <label class="check"><input type="checkbox" data-k="kit25"><span>Túi đựng khăn bẩn, dán nhãn "SOILED"</span></label>
+
+    <h3>Giấy tờ &amp; trang phục</h3>
+    <label class="check"><input type="checkbox" data-k="kit26"><span>Giấy tờ tùy thân có ảnh (bằng lái / hộ chiếu)</span></label>
+    <label class="check"><input type="checkbox" data-k="kit27"><span>Thư xác nhận đăng ký thi từ PSI</span></label>
+    <label class="check"><input type="checkbox" data-k="kit28"><span>Đồng phục / apron sạch, kín đáo, tóc buộc gọn</span></label>
+    <label class="check"><input type="checkbox" data-k="kit29"><span>Người mẫu (model) — nếu trung tâm yêu cầu</span></label>
+  </section>
+
+  <section id="setup">
+    <h2>1️⃣ Trạm 1 · Setup bàn làm việc</h2>
+    <p class="sub">Khoảng 5 phút đầu — giám khảo quan sát kỹ bước này.</p>
+    <label class="check"><input type="checkbox" data-k="s1a"><span>Rửa tay bằng xà phòng và nước (≥ 20 giây)</span></label>
+    <label class="check"><input type="checkbox" data-k="s1b"><span>Lau mặt bàn bằng khăn giấy tẩm disinfectant EPA</span></label>
+    <label class="check"><input type="checkbox" data-k="s1c"><span>Trải khăn sạch lên bàn</span></label>
+    <label class="check"><input type="checkbox" data-k="s1d"><span>Mở hộp "DISINFECTED", lấy dụng cụ multi-use bày theo thứ tự sử dụng</span></label>
+    <label class="check"><input type="checkbox" data-k="s1e"><span>Bày dụng cụ single-use (que gỗ cam, buffer, bông) — còn trong gói gốc</span></label>
+    <label class="check"><input type="checkbox" data-k="s1f"><span>Đặt bình disinfectant có nắp, dán nhãn "DISINFECTANT", có dụng cụ ngâm nhìn thấy được</span></label>
+    <label class="check"><input type="checkbox" data-k="s1g"><span>Đặt thùng rác nhỏ có nắp dưới bàn — <b>túi biohazard</b> sẵn sàng</span></label>
+    <label class="check"><input type="checkbox" data-k="s1h"><span>Mời khách rửa tay trước khi ngồi</span></label>
+    <label class="check"><input type="checkbox" data-k="s1i"><span>Consultation miệng: hỏi dị ứng, kiểm tra móng/da hai bên</span></label>
+    <div class="callout warn"><b>Giám khảo có thể hỏi</b>: "Bạn khử trùng kềm cắt da như thế nào?" — phải trả lời đủ: <b>làm sạch → ngâm disinfectant EPA ≥ 10 phút → lau khô → cất hộp kín</b>.</div>
+  </section>
+
+  <section id="manicure">
+    <h2>2️⃣ Trạm 2 · Manicure cơ bản</h2>
+    <p class="sub">30–40 phút. Thực hiện trên một hoặc hai tay tùy yêu cầu.</p>
+    <label class="check"><input type="checkbox" data-k="s2a"><span>Tháo sơn cũ: bông tẩm remover, lau <b>từ gốc → free edge</b>, mỗi ngón bông riêng</span></label>
+    <label class="check"><input type="checkbox" data-k="s2b"><span>Cắt móng bằng clipper — không cắt quá sâu</span></label>
+    <label class="check"><input type="checkbox" data-k="s2c"><span>Dũa một chiều từ <b>ngoài vào trong</b> (corner → center), không dũa tới lui</span></label>
+    <label class="check"><input type="checkbox" data-k="s2d"><span>Ngâm tay trong fingerbowl với xà phòng nhẹ 3–5 phút</span></label>
+    <label class="check"><input type="checkbox" data-k="s2e"><span>Dùng nail brush làm sạch dưới free edge; lau khô bằng khăn sạch</span></label>
+    <label class="check"><input type="checkbox" data-k="s2f"><span>Bôi cuticle remover, chờ ≈ 30 giây</span></label>
+    <label class="check"><input type="checkbox" data-k="s2g"><span>Đẩy cuticle nhẹ bằng pusher hoặc que gỗ cam — <b>không bẩy mạnh</b></span></label>
+    <label class="check"><input type="checkbox" data-k="s2h"><span>Cắt da chết nhẹ bằng cuticle nipper — <b>KHÔNG cắt eponychium</b></span></label>
+    <label class="check"><input type="checkbox" data-k="s2i"><span>Massage tay với kem dưỡng 3–5 phút</span></label>
+    <label class="check"><input type="checkbox" data-k="s2j"><span>Lau móng bằng nail dehydrator / alcohol wipe trước khi sơn</span></label>
+    <div class="callout bad"><b>Lỗi đáng sợ nhất</b>: cắt eponychium gây chảy máu. Nếu xảy ra → <b>chuyển ngay sang quy trình blood spill</b> — xem mục ⚠️ bên dưới.</div>
+  </section>
+
+  <section id="tip">
+    <h2>3️⃣ Trạm 3 · Đắp tip / móng giả</h2>
+    <p class="sub">Thường yêu cầu trên một ngón. Kiểm tra yêu cầu cụ thể của trung tâm.</p>
+    <label class="check"><input type="checkbox" data-k="s3a"><span>Chọn tip đúng kích cỡ — phủ hết chiều rộng free edge, không lấn ra hai bên</span></label>
+    <label class="check"><input type="checkbox" data-k="s3b"><span>Nhỏ giọt nhỏ nail glue lên chỗ tiếp giáp (well của tip) — không dính da</span></label>
+    <label class="check"><input type="checkbox" data-k="s3c"><span>Ấn tip, giữ 5–10 giây, tránh tạo bọt khí</span></label>
+    <label class="check"><input type="checkbox" data-k="s3d"><span>Cắt tip theo độ dài đề bài — dùng tip cutter hoặc clipper</span></label>
+    <label class="check"><input type="checkbox" data-k="s3e"><span>Blend đường tiếp giáp tip + móng thật bằng dũa 180 grit — thao tác nhẹ, không mài móng thật</span></label>
+    <label class="check"><input type="checkbox" data-k="s3f"><span>(Nếu yêu cầu) Phủ acrylic hoặc gel: bôi primer 1 lớp mỏng tránh da → đắp → hong khô / để khô tự nhiên</span></label>
+    <label class="check"><input type="checkbox" data-k="s3g"><span>Dũa tạo dáng (square/oval/round theo yêu cầu), buffer bóng</span></label>
+    <label class="check"><input type="checkbox" data-k="s3h"><span>Lau sạch bụi bằng nail brush + lau nail dehydrator</span></label>
+    <div class="callout warn"><b>Mẹo</b>: luyện đắp tip 1 ngón trong 25 phút tại trường. Đủ giờ sẽ cứu bạn nếu run tay.</div>
+  </section>
+
+  <section id="polish">
+    <h2>4️⃣ Trạm 4 · Sơn móng</h2>
+    <p class="sub">Ba lớp: base → color × 2 → top. Phủ cả free edge để tránh bong.</p>
+    <label class="check"><input type="checkbox" data-k="s4a"><span>Base coat 1 lớp mỏng — phủ <b>free edge</b></span></label>
+    <label class="check"><input type="checkbox" data-k="s4b"><span>Color coat lớp 1: 3 đường cọ (giữa + hai bên), từ cuticle → free edge</span></label>
+    <label class="check"><input type="checkbox" data-k="s4c"><span>Chờ 1–2 phút, sơn Color coat lớp 2 mỏng hơn</span></label>
+    <label class="check"><input type="checkbox" data-k="s4d"><span>Top coat 1 lớp, phủ cả <b>free edge</b></span></label>
+    <label class="check"><input type="checkbox" data-k="s4e"><span>Lau sơn lem ngoài móng bằng que gỗ cam + bông tẩm remover</span></label>
+    <div class="callout"><b>Không bao giờ</b> sơn đè lên cuticle sống — lau sạch phần lem trước khi giám khảo kiểm tra.</div>
+  </section>
+
+  <section id="blood" class="critical">
+    <h2>⚠️ Blood Spill Procedure — BẮT BUỘC PHẢI THUỘC</h2>
+    <p class="sub">Sai bước này = <b>rớt ngay lập tức</b>. Giám khảo có thể yêu cầu demo hoặc mô tả bằng lời.</p>
+    <label class="check critical"><input type="checkbox" data-k="b1"><span><b>1.</b> Dừng dịch vụ <b>ngay lập tức</b></span></label>
+    <label class="check critical"><input type="checkbox" data-k="b2"><span><b>2.</b> Đeo găng tay dùng-một-lần <b>trước khi</b> chạm vào vùng chảy máu</span></label>
+    <label class="check critical"><input type="checkbox" data-k="b3"><span><b>3.</b> Lau máu bằng khăn giấy + styptic <b>powder</b> (KHÔNG styptic pencil dùng chung)</span></label>
+    <label class="check critical"><input type="checkbox" data-k="b4"><span><b>4.</b> Băng vết thương bằng băng dính sạch</span></label>
+    <label class="check critical"><input type="checkbox" data-k="b5"><span><b>5.</b> Bỏ <b>tất cả</b> vật dính máu (khăn, bông, găng) vào túi <b>biohazard</b> dán kín</span></label>
+    <label class="check critical"><input type="checkbox" data-k="b6"><span><b>6.</b> Làm sạch bàn/dụng cụ dính máu, khử trùng lại bằng disinfectant EPA</span></label>
+    <label class="check critical"><input type="checkbox" data-k="b7"><span><b>7.</b> Bỏ dụng cụ xốp (buffer, đá dũa) đã dính máu — <b>không tái dùng</b></span></label>
+    <label class="check critical"><input type="checkbox" data-k="b8"><span><b>8.</b> Rửa tay kỹ, đeo găng mới trước khi tiếp tục</span></label>
+    <label class="check critical"><input type="checkbox" data-k="b9"><span><b>9.</b> Ghi sự việc vào sổ (exposure incident log) nếu được yêu cầu</span></label>
+    <div class="callout bad"><b>Nhớ thứ tự</b>: Dừng → Găng → Lau → Băng → Biohazard → Khử trùng → Rửa tay → Găng mới → Ghi chép.</div>
+  </section>
+
+  <section id="cleanup">
+    <h2>5️⃣ Trạm 5 · Dọn dẹp cuối giờ</h2>
+    <p class="sub">Giám khảo chấm phần này ngang với kỹ thuật làm móng.</p>
+    <label class="check"><input type="checkbox" data-k="s5a"><span>Bỏ <b>toàn bộ</b> dụng cụ single-use vào thùng rác có nắp</span></label>
+    <label class="check"><input type="checkbox" data-k="s5b"><span>Làm sạch dụng cụ multi-use bằng xà phòng + bàn chải, lau khô</span></label>
+    <label class="check"><input type="checkbox" data-k="s5c"><span>Ngâm dụng cụ trong disinfectant EPA ≥ 10 phút</span></label>
+    <label class="check"><input type="checkbox" data-k="s5d"><span>Khử trùng mặt bàn, đổ khăn bẩn vào túi "SOILED"</span></label>
+    <label class="check"><input type="checkbox" data-k="s5e"><span>Rửa tay trước khi báo cáo hoàn thành</span></label>
+  </section>
+
+  <section id="deductions" class="warn">
+    <h2>❌ Lỗi trừ điểm thường gặp</h2>
+    <p class="sub">Tránh những lỗi này — đa số thí sinh rớt vì chúng, không phải do thiếu kỹ thuật.</p>
+    <label class="check"><input type="checkbox" data-k="d1"><span>Dụng cụ <b>chưa khử trùng</b> trong hộp — trừ điểm nặng</span></label>
+    <label class="check"><input type="checkbox" data-k="d2"><span>Quên rửa tay trước khi tiếp khách</span></label>
+    <label class="check"><input type="checkbox" data-k="d3"><span>Cắt eponychium (da sống) gây chảy máu</span></label>
+    <label class="check"><input type="checkbox" data-k="d4"><span>Dùng <b>credo blade / razor</b> để bào gót — <b>CẤM TUYỆT ĐỐI tại PA</b></span></label>
+    <label class="check"><input type="checkbox" data-k="d5"><span>Dũa tới lui (saw motion) trên móng</span></label>
+    <label class="check"><input type="checkbox" data-k="d6"><span>Quên phủ top coat lên free edge</span></label>
+    <label class="check"><input type="checkbox" data-k="d7"><span>Tái dùng dụng cụ single-use (buffer, que gỗ cam, đá dũa xốp)</span></label>
+    <label class="check"><input type="checkbox" data-k="d8"><span>Đặt dụng cụ đã dùng lên khăn sạch / khu vực sạch</span></label>
+    <label class="check"><input type="checkbox" data-k="d9"><span>Quy trình blood spill sai thứ tự hoặc thiếu bước</span></label>
+    <label class="check"><input type="checkbox" data-k="d10"><span>Không mặc đồng phục / apron sạch, tóc không buộc gọn</span></label>
+    <label class="check"><input type="checkbox" data-k="d11"><span>Bình disinfectant không dán nhãn hoặc không có nắp</span></label>
+    <label class="check"><input type="checkbox" data-k="d12"><span>Quên ngâm dụng cụ đủ thời gian (10 phút) trước khi cất</span></label>
+  </section>
+
+  <section id="tips">
+    <h2>💡 Mẹo đêm trước và ngày thi</h2>
+    <label class="check"><input type="checkbox" data-k="t1"><span>Kiểm tra <b>toàn bộ kit</b> theo danh sách ở trên — ít nhất 12 giờ trước giờ thi</span></label>
+    <label class="check"><input type="checkbox" data-k="t2"><span>Ngâm và cất dụng cụ multi-use đêm trước → dán nhãn "DISINFECTED"</span></label>
+    <label class="check"><input type="checkbox" data-k="t3"><span>Pha sẵn disinfectant mới vào bình có nắp (không để cũ quá 24h)</span></label>
+    <label class="check"><input type="checkbox" data-k="t4"><span>In thư xác nhận PSI, mang kèm ID gốc có ảnh</span></label>
+    <label class="check"><input type="checkbox" data-k="t5"><span>Đến trung tâm <b>sớm 30 phút</b> để check-in và làm quen bàn thi</span></label>
+    <label class="check"><input type="checkbox" data-k="t6"><span>Mặc đồng phục / apron sạch, tóc buộc cao, móng thợ ngắn và sạch</span></label>
+    <label class="check"><input type="checkbox" data-k="t7"><span>Không ăn đồ nặng mùi (tỏi, hành) sáng ngày thi</span></label>
+    <label class="check"><input type="checkbox" data-k="t8"><span>Tập đọc lại quy trình blood spill ít nhất 3 lần sáng ngày thi</span></label>
+    <label class="check"><input type="checkbox" data-k="t9"><span>Hít thở sâu trước khi bắt đầu — giám khảo muốn thấy bạn <b>bình tĩnh và có kế hoạch</b>, không chỉ nhanh</span></label>
+    <div class="callout"><b>Tư thế tâm lý</b>: giám khảo không phải kẻ thù. Họ muốn bạn đậu nếu bạn làm đúng quy trình. Nói rõ từng bước khi bạn làm — "Tôi đang khử trùng mặt bàn", "Tôi bắt đầu ngâm tay khách". Nó chứng minh bạn hiểu, không phải làm vẹt.</div>
+  </section>
+
+  <button class="reset-btn" id="resetBtn">↺ Xóa tiến trình (làm lại từ đầu)</button>
+
+</div>
+
+<footer>
+  Danh sách dựa trên quy trình chuẩn của các trường thẩm mỹ PA và hướng dẫn PSI. Luôn kiểm tra xác nhận cập nhật mới nhất từ trung tâm thi của bạn.
+</footer>
+
+<script>
+const STORE = 'nailpa-practical-v1';
+function load() { try { return JSON.parse(localStorage.getItem(STORE) || '{}'); } catch { return {}; } }
+function save(s) { localStorage.setItem(STORE, JSON.stringify(s)); }
+function updateProgress() {
+  const boxes = document.querySelectorAll('input[type=checkbox][data-k]');
+  const done = Array.from(boxes).filter(b => b.checked).length;
+  document.getElementById('progressFill').style.width = (boxes.length ? done / boxes.length * 100 : 0) + '%';
+  document.getElementById('progressText').textContent = done + ' / ' + boxes.length + ' đã hoàn thành';
+}
+function init() {
+  const state = load();
+  document.querySelectorAll('input[type=checkbox][data-k]').forEach(b => {
+    if (state[b.dataset.k]) { b.checked = true; b.closest('.check').classList.add('done'); }
+    b.addEventListener('change', () => {
+      const s = load();
+      s[b.dataset.k] = b.checked;
+      save(s);
+      b.closest('.check').classList.toggle('done', b.checked);
+      updateProgress();
+    });
+  });
+  updateProgress();
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (!confirm('Xóa toàn bộ tiến trình trên trang này?')) return;
+    localStorage.removeItem(STORE);
+    document.querySelectorAll('input[type=checkbox][data-k]').forEach(b => { b.checked = false; b.closest('.check').classList.remove('done'); });
+    updateProgress();
+  });
+}
+init();
+</script>
+</body>
+</html>

@@ -208,7 +208,18 @@ function shuffle() {
 }
 function next() { if (idx < deck.length - 1) { idx++; render(); } }
 function prev() { if (idx > 0) { idx--; render(); } }
-function flip() { document.getElementById('card').classList.toggle('revealed'); }
+function flip() {
+  const card = document.getElementById('card');
+  card.classList.toggle('revealed');
+  if (card.classList.contains('revealed') && deck.length) {
+    try {
+      const K = 'nailpa-phrase-seen-v1';
+      const seen = new Set(JSON.parse(localStorage.getItem(K) || '[]'));
+      seen.add(deck[idx].en);
+      localStorage.setItem(K, JSON.stringify([...seen]));
+    } catch {}
+  }
+}
 
 document.getElementById('card').addEventListener('click', flip);
 document.getElementById('speakBtn').addEventListener('click', e => {

@@ -202,7 +202,18 @@ function render() {
   document.getElementById('prevBtn').disabled = idx === 0;
   document.getElementById('nextBtn').disabled = idx === deck.length - 1;
 }
-function toggleCard() { document.getElementById('card').classList.toggle('revealed'); }
+function toggleCard() {
+  const card = document.getElementById('card');
+  card.classList.toggle('revealed');
+  if (card.classList.contains('revealed') && deck.length) {
+    try {
+      const K = 'nailpa-flash-seen-v1';
+      const seen = new Set(JSON.parse(localStorage.getItem(K) || '[]'));
+      seen.add(deck[idx].n);
+      localStorage.setItem(K, JSON.stringify([...seen]));
+    } catch {}
+  }
+}
 function next() { if (idx < deck.length - 1) { idx++; render(); } }
 function prev() { if (idx > 0) { idx--; render(); } }
 function loadDeck() {

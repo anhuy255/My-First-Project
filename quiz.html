@@ -269,6 +269,14 @@ function submit() {
   let score = 0;
   quiz.forEach((q, i) => { if (answers[i] === q.a) score++; });
   const pct = Math.round(score / quiz.length * 100);
+  try {
+    const K = 'nailpa-quiz-best-v1';
+    const best = JSON.parse(localStorage.getItem(K) || '{}');
+    if (best[currentQuizNum] == null || score > best[currentQuizNum]) {
+      best[currentQuizNum] = score;
+      localStorage.setItem(K, JSON.stringify(best));
+    }
+  } catch {}
   document.getElementById('scoreNum').textContent = score;
   document.getElementById('scorePct').textContent = pct + '%';
   const status = document.getElementById('statusLine');

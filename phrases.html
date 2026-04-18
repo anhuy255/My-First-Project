@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiếng Anh Giao Tiếp — Nail PA</title>
+<style>
+  :root { --primary:#159957; --accent:#155799; --bg:#f6f8fa; --card:#fff; --text:#1a1a1a; --muted:#6a737d; --border:#d0d7de; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+  header { background:linear-gradient(120deg,var(--accent),var(--primary)); color:#fff; padding:20px 16px; text-align:center; }
+  header h1 { margin:0 0 8px; font-size:1.3em; }
+  header a { color:#fff; text-decoration:underline; font-size:.9em; }
+  .container { max-width:640px; margin:0 auto; padding:16px; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .controls select,.controls button { flex:1; min-width:100px; padding:10px; border:1px solid var(--border); border-radius:6px; background:#fff; font-size:1em; cursor:pointer; }
+  .progress { text-align:center; color:var(--muted); margin-bottom:8px; font-size:.9em; }
+
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:28px 20px; min-height:260px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.06); transition:transform .15s; position:relative; user-select:none; }
+  .card:active { transform:scale(.99); }
+  .card .label { position:absolute; top:10px; left:16px; font-size:.72em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+  .card .cat { position:absolute; top:10px; right:16px; font-size:.72em; color:var(--primary); text-transform:uppercase; font-weight:700; letter-spacing:.06em; }
+
+  .phrase-en { font-size:1.35em; font-weight:700; color:var(--text); line-height:1.35; margin-bottom:14px; }
+  .phrase-vn { font-size:1.1em; color:var(--accent); display:none; border-top:1px dashed var(--border); padding-top:14px; margin-top:6px; width:100%; }
+  .card.revealed .phrase-en { color:var(--muted); font-size:1.1em; font-weight:500; }
+  .card.revealed .phrase-vn { display:block; }
+
+  .speak-btn { margin-top:18px; display:inline-flex; align-items:center; gap:6px; padding:10px 18px; background:var(--primary); color:#fff; border:none; border-radius:24px; font-size:.95em; font-weight:600; cursor:pointer; box-shadow:0 2px 6px rgba(21,153,87,.3); }
+  .speak-btn:hover { background:#107c46; }
+  .speak-btn:active { transform:scale(.97); }
+  .speak-btn.speaking { background:#bf8700; animation:pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow:0 2px 6px rgba(191,135,0,.3); } 50% { box-shadow:0 2px 14px rgba(191,135,0,.6); } }
+
+  .hint { text-align:center; color:var(--muted); font-size:.82em; margin-top:10px; }
+  .nav { display:flex; gap:8px; margin-top:16px; }
+  .nav button { flex:1; padding:12px; border:1px solid var(--primary); background:#fff; color:var(--primary); border-radius:6px; font-size:1em; font-weight:600; cursor:pointer; }
+  .nav button:hover { background:var(--primary); color:#fff; }
+  .nav button:disabled { opacity:.4; cursor:not-allowed; }
+  .warn { background:#fff8c5; border:1px solid #e0c200; color:#7a5a00; padding:10px 14px; border-radius:8px; font-size:.88em; margin-bottom:12px; display:none; }
+  .warn.show { display:block; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🗣️ Tiếng Anh Giao Tiếp — Nail PA</h1>
+  <a href="index.html">← Về trang chủ</a>
+</header>
+<div class="container">
+  <div class="warn" id="warn">Trình duyệt này không hỗ trợ phát âm tự động. Hãy thử Safari hoặc Chrome mới nhất.</div>
+  <div class="controls">
+    <select id="deckSelect">
+      <option value="all">Tất cả chủ đề</option>
+      <option value="greet">👋 Chào hỏi</option>
+      <option value="health">❤️ Sức khỏe khách</option>
+      <option value="service">💅 Trong khi làm</option>
+      <option value="upsell">✨ Gợi ý thêm dịch vụ</option>
+      <option value="problem">⚠️ Xử lý sự cố</option>
+      <option value="checkout">💳 Thanh toán & tiễn khách</option>
+    </select>
+    <button id="shuffleBtn">🔀 Trộn</button>
+  </div>
+  <div class="progress" id="progress">–</div>
+  <div class="card" id="card">
+    <span class="label" id="cardLabel">Câu</span>
+    <span class="cat" id="cardCat"></span>
+    <div class="phrase-en" id="phraseEn">—</div>
+    <div class="phrase-vn" id="phraseVn">—</div>
+    <button class="speak-btn" id="speakBtn">🔊 Phát âm</button>
+  </div>
+  <div class="hint">Bấm vào thẻ để xem bản dịch · Bấm 🔊 để nghe</div>
+  <div class="nav">
+    <button id="prevBtn">◀ Trước</button>
+    <button id="nextBtn">Sau ▶</button>
+  </div>
+</div>
+<script>
+const PHRASES = [
+  {cat:'greet',label:'Chào hỏi',en:'Hello, welcome!',vn:'Xin chào, chào mừng quý khách!'},
+  {cat:'greet',label:'Chào hỏi',en:'How are you today?',vn:'Hôm nay quý khách khỏe không?'},
+  {cat:'greet',label:'Chào hỏi',en:'Please have a seat.',vn:'Mời quý khách ngồi.'},
+  {cat:'greet',label:'Chào hỏi',en:'Just one moment, please.',vn:'Xin vui lòng đợi một chút.'},
+  {cat:'greet',label:'Chào hỏi',en:'What service would you like today?',vn:'Hôm nay quý khách muốn làm dịch vụ gì?'},
+  {cat:'greet',label:'Chào hỏi',en:'Do you have an appointment?',vn:'Quý khách có đặt hẹn trước không?'},
+  {cat:'greet',label:'Chào hỏi',en:'Please wash your hands first.',vn:'Xin vui lòng rửa tay trước.'},
+
+  {cat:'health',label:'Sức khỏe',en:'Do you have any allergies?',vn:'Quý khách có dị ứng gì không?'},
+  {cat:'health',label:'Sức khỏe',en:'Are you diabetic?',vn:'Quý khách có bị tiểu đường không?'},
+  {cat:'health',label:'Sức khỏe',en:'Are you pregnant?',vn:'Quý khách có đang mang thai không?'},
+  {cat:'health',label:'Sức khỏe',en:'Do you have any cuts or wounds?',vn:'Quý khách có vết cắt hay vết thương nào không?'},
+  {cat:'health',label:'Sức khỏe',en:'This might sting a little.',vn:'Có thể hơi rát một chút.'},
+  {cat:'health',label:'Sức khỏe',en:'Let me know if it hurts.',vn:'Nếu đau xin báo cho tôi biết.'},
+
+  {cat:'service',label:'Trong khi làm',en:'What shape would you like?',vn:'Quý khách muốn móng hình gì?'},
+  {cat:'service',label:'Trong khi làm',en:'Square, round, or almond?',vn:'Vuông, tròn, hay hạnh nhân?'},
+  {cat:'service',label:'Trong khi làm',en:'How long would you like it?',vn:'Quý khách muốn dài bao nhiêu?'},
+  {cat:'service',label:'Trong khi làm',en:'What color would you like?',vn:'Quý khách chọn màu nào?'},
+  {cat:'service',label:'Trong khi làm',en:'Is the water too hot?',vn:'Nước có quá nóng không?'},
+  {cat:'service',label:'Trong khi làm',en:'Is this pressure okay?',vn:'Lực như vậy có được không?'},
+  {cat:'service',label:'Trong khi làm',en:'Please relax your hand.',vn:'Xin thả lỏng tay.'},
+  {cat:'service',label:'Trong khi làm',en:'Please hold still.',vn:'Xin giữ yên.'},
+  {cat:'service',label:'Trong khi làm',en:'Be careful, your nails are wet.',vn:'Cẩn thận, móng còn ướt.'},
+  {cat:'service',label:'Trong khi làm',en:'Almost done.',vn:'Gần xong rồi.'},
+  {cat:'service',label:'Trong khi làm',en:'Do you like it?',vn:'Quý khách có thích không?'},
+
+  {cat:'upsell',label:'Gợi ý thêm',en:'Would you like to add gel polish?',vn:'Quý khách có muốn thêm sơn gel không?'},
+  {cat:'upsell',label:'Gợi ý thêm',en:'Would you like a pedicure as well?',vn:'Quý khách có muốn làm pedicure luôn không?'},
+  {cat:'upsell',label:'Gợi ý thêm',en:'Your cuticles are a bit dry. Want some oil?',vn:'Cuticle của quý khách hơi khô. Muốn dưỡng dầu không?'},
+  {cat:'upsell',label:'Gợi ý thêm',en:'We have new colors. Would you like to see them?',vn:'Chúng tôi có màu mới. Quý khách muốn xem không?'},
+  {cat:'upsell',label:'Gợi ý thêm',en:'I recommend a dip powder. It lasts longer.',vn:'Tôi khuyên dùng dip powder. Bền lâu hơn.'},
+
+  {cat:'problem',label:'Xử lý sự cố',en:"I'm sorry about that.",vn:'Tôi xin lỗi về điều đó.'},
+  {cat:'problem',label:'Xử lý sự cố',en:'Let me fix that for you.',vn:'Để tôi sửa lại cho quý khách.'},
+  {cat:'problem',label:'Xử lý sự cố',en:'There will be no charge for this.',vn:'Cái này không tính tiền.'},
+  {cat:'problem',label:'Xử lý sự cố',en:'I recommend seeing a doctor.',vn:'Tôi khuyên quý khách đi khám bác sĩ.'},
+  {cat:'problem',label:'Xử lý sự cố',en:'I cannot do this service today.',vn:'Hôm nay tôi không thể làm dịch vụ này.'},
+  {cat:'problem',label:'Xử lý sự cố',en:'This looks like an infection.',vn:'Trông giống như bị nhiễm trùng.'},
+
+  {cat:'checkout',label:'Thanh toán',en:'All done!',vn:'Xong rồi!'},
+  {cat:'checkout',label:'Thanh toán',en:'Please be careful, the polish is still drying.',vn:'Xin cẩn thận, sơn còn đang khô.'},
+  {cat:'checkout',label:'Thanh toán',en:'Your total is thirty-five dollars.',vn:'Tổng cộng ba mươi lăm đô la.'},
+  {cat:'checkout',label:'Thanh toán',en:'Cash or card?',vn:'Tiền mặt hay thẻ?'},
+  {cat:'checkout',label:'Thanh toán',en:'Would you like to book your next appointment?',vn:'Quý khách có muốn đặt lịch lần sau không?'},
+  {cat:'checkout',label:'Thanh toán',en:'How about two weeks from today?',vn:'Hai tuần kể từ hôm nay thì sao?'},
+  {cat:'checkout',label:'Thanh toán',en:'Thank you, have a great day!',vn:'Cảm ơn, chúc quý khách một ngày tốt lành!'},
+  {cat:'checkout',label:'Thanh toán',en:'Please come again.',vn:'Hẹn gặp lại quý khách.'},
+];
+
+let deck = [];
+let idx = 0;
+
+const supported = 'speechSynthesis' in window;
+if (!supported) document.getElementById('warn').classList.add('show');
+
+// Keep selectedVoice cached
+let enVoice = null;
+function pickVoice() {
+  if (!supported) return;
+  const voices = speechSynthesis.getVoices();
+  enVoice = voices.find(v => v.lang === 'en-US' && /female|samantha|ava|karen|moira/i.test(v.name))
+         || voices.find(v => v.lang === 'en-US')
+         || voices.find(v => v.lang.startsWith('en'))
+         || null;
+}
+if (supported) {
+  pickVoice();
+  speechSynthesis.onvoiceschanged = pickVoice;
+}
+
+function speak(text) {
+  if (!supported) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.9;
+  u.pitch = 1;
+  if (enVoice) u.voice = enVoice;
+  const btn = document.getElementById('speakBtn');
+  btn.classList.add('speaking');
+  u.onend = () => btn.classList.remove('speaking');
+  u.onerror = () => btn.classList.remove('speaking');
+  speechSynthesis.speak(u);
+}
+
+function render() {
+  const card = document.getElementById('card');
+  const en = document.getElementById('phraseEn');
+  const vn = document.getElementById('phraseVn');
+  const label = document.getElementById('cardLabel');
+  const cat = document.getElementById('cardCat');
+  const prog = document.getElementById('progress');
+  card.classList.remove('revealed');
+  if (!deck.length) {
+    en.textContent = 'Chọn chủ đề trước';
+    vn.textContent = '';
+    label.textContent = '';
+    cat.textContent = '';
+    prog.textContent = '–';
+    return;
+  }
+  const p = deck[idx];
+  en.textContent = p.en;
+  vn.textContent = p.vn;
+  label.textContent = 'Câu ' + (idx + 1);
+  cat.textContent = p.label;
+  prog.textContent = (idx + 1) + ' / ' + deck.length;
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === deck.length - 1;
+}
+
+function loadDeck() {
+  const v = document.getElementById('deckSelect').value;
+  deck = v === 'all' ? PHRASES.slice() : PHRASES.filter(p => p.cat === v);
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  idx = 0;
+  render();
+}
+function shuffle() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  idx = 0;
+  render();
+}
+function next() { if (idx < deck.length - 1) { idx++; render(); } }
+function prev() { if (idx > 0) { idx--; render(); } }
+function flip() { document.getElementById('card').classList.toggle('revealed'); }
+
+document.getElementById('card').addEventListener('click', flip);
+document.getElementById('speakBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  if (deck.length) speak(deck[idx].en);
+});
+document.getElementById('deckSelect').addEventListener('change', loadDeck);
+document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+document.getElementById('prevBtn').addEventListener('click', prev);
+document.getElementById('nextBtn').addEventListener('click', next);
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') next();
+  else if (e.key === 'ArrowLeft') prev();
+  else if (e.key === ' ') { e.preventDefault(); flip(); }
+});
+
+loadDeck();
+</script>
+</body>
+</html>

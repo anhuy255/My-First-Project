@@ -20,8 +20,9 @@ Bộ tài liệu tiếng Việt giúp chuẩn bị kỳ thi **PA State Board of 
 
 ## 🎴 Thẻ ghi nhớ (Flashcards)
 
-- [Phần 1 — 50 thẻ đầu (vệ sinh, luật, giải phẫu)](the-ghi-nho-part1.md)
-- [Phần 2 — 50 thẻ tiếp (bệnh móng, dụng cụ, móng giả, đạo đức)](the-ghi-nho-part2.md)
+- **[🔥 Học flashcard tương tác (bấm để lật thẻ)](flashcards.html)** ← khuyên dùng
+- [Phần 1 — 50 thẻ đầu dạng bảng (vệ sinh, luật, giải phẫu)](the-ghi-nho-part1.md)
+- [Phần 2 — 50 thẻ tiếp dạng bảng (bệnh móng, dụng cụ, móng giả, đạo đức)](the-ghi-nho-part2.md)
 
 ---
 

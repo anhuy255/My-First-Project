@@ -52,15 +52,28 @@
 
   <!-- Start screen -->
   <div id="startScreen">
-    <p>Chọn đề thi thử để bắt đầu. Mỗi đề gồm <strong>50 câu</strong>, điểm đậu <strong>≥ 75%</strong> (38/50).</p>
+    <p>Chọn hình thức ôn thi bên dưới. Mỗi câu có giải thích chi tiết khi xem kết quả.</p>
+
+    <h3 style="margin:20px 0 8px; font-size:1em; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;">Luyện tập (không tính giờ)</h3>
+    <p style="margin:0 0 10px; color:var(--muted); font-size:.9em;">Mỗi đề 50 câu. Có thể quay lại sửa đáp án. Điểm đậu ≥ 75% (38/50).</p>
     <div class="pick">
-      <button onclick="start(1)">Bắt đầu Đề Thi Thử Số 1</button>
-      <button onclick="start(2)">Bắt đầu Đề Thi Thử Số 2</button>
+      <button onclick="start(1)">📝 Đề Thi Thử Số 1</button>
+      <button onclick="start(2)">📝 Đề Thi Thử Số 2</button>
+    </div>
+
+    <h3 style="margin:24px 0 8px; font-size:1em; color:var(--bad); text-transform:uppercase; letter-spacing:.06em;">🔥 Mô phỏng kỳ thi thật</h3>
+    <p style="margin:0 0 10px; color:var(--muted); font-size:.9em;"><strong>85 câu · 90 phút</strong> · tự động nộp khi hết giờ. Giống điều kiện phòng thi PSI thật. Điểm đậu ≥ 75% (64/85).</p>
+    <div class="pick">
+      <button onclick="startSim()" style="border-color:var(--bad); color:var(--bad);">⏱️ Bắt đầu mô phỏng 90 phút</button>
     </div>
   </div>
 
   <!-- Quiz screen -->
   <div id="quizScreen" class="hidden">
+    <div id="timerBar" class="hidden" style="background:#fff5f5; border:1px solid #f4c2c7; border-left:4px solid var(--bad); border-radius:8px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <span style="font-size:.82em; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:700;">⏱️ Thời gian còn lại</span>
+      <span id="timerText" style="font-size:1.3em; font-weight:800; color:var(--bad); font-variant-numeric:tabular-nums;">90:00</span>
+    </div>
     <div class="progress">
       <span id="progressText">1 / 50</span>
       <span id="answeredText">0 đã chọn</span>
@@ -213,6 +226,12 @@ let quiz = [];
 let answers = [];
 let idx = 0;
 let currentQuizNum = 0;
+let isSim = false;
+const SIM_Q_COUNT = 85;
+const SIM_TIME_MS = 90 * 60 * 1000;
+let simDeadline = 0;
+let timerInterval = null;
+let simStartedAt = 0;
 
 function shuffleArr(arr) {
   const a = arr.slice();
@@ -224,14 +243,57 @@ function shuffleArr(arr) {
 }
 
 function start(n) {
+  stopTimer();
+  isSim = false;
   currentQuizNum = n;
   quiz = shuffleArr(n === 1 ? QUIZ_1 : QUIZ_2);
   answers = new Array(quiz.length).fill(null);
   idx = 0;
+  document.getElementById('timerBar').classList.add('hidden');
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('quizScreen').classList.remove('hidden');
   render();
+}
+
+function startSim() {
+  if (!confirm('Mô phỏng kỳ thi thật: 85 câu trong 90 phút, không thể tạm dừng. Tiếp tục?')) return;
+  stopTimer();
+  isSim = true;
+  currentQuizNum = 'sim';
+  const pool = shuffleArr(QUIZ_1.concat(QUIZ_2));
+  quiz = pool.slice(0, SIM_Q_COUNT);
+  answers = new Array(quiz.length).fill(null);
+  idx = 0;
+  simStartedAt = Date.now();
+  simDeadline = simStartedAt + SIM_TIME_MS;
+  document.getElementById('timerBar').classList.remove('hidden');
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  render();
+  tickTimer();
+  timerInterval = setInterval(tickTimer, 1000);
+}
+
+function tickTimer() {
+  const remain = simDeadline - Date.now();
+  const el = document.getElementById('timerText');
+  if (remain <= 0) {
+    el.textContent = '0:00';
+    stopTimer();
+    alert('Hết giờ! Bài thi sẽ tự động nộp.');
+    submit(true);
+    return;
+  }
+  const mins = Math.floor(remain / 60000);
+  const secs = Math.floor((remain % 60000) / 1000);
+  el.textContent = mins + ':' + String(secs).padStart(2, '0');
+  el.style.color = remain < 5 * 60 * 1000 ? 'var(--bad)' : (remain < 15 * 60 * 1000 ? 'var(--warn)' : 'var(--accent)');
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
 }
 
 function render() {
@@ -263,12 +325,14 @@ function select(i) {
 function next() { if (idx < quiz.length - 1) { idx++; render(); } }
 function prev() { if (idx > 0) { idx--; render(); } }
 
-function submit() {
+function submit(forced) {
   const unanswered = answers.filter(a => a === null).length;
-  if (unanswered > 0 && !confirm('Còn ' + unanswered + ' câu chưa trả lời. Vẫn nộp?')) return;
+  if (!forced && unanswered > 0 && !confirm('Còn ' + unanswered + ' câu chưa trả lời. Vẫn nộp?')) return;
+  stopTimer();
   let score = 0;
   quiz.forEach((q, i) => { if (answers[i] === q.a) score++; });
   const pct = Math.round(score / quiz.length * 100);
+  const passThreshold = Math.ceil(quiz.length * 0.75);
   try {
     const K = 'nailpa-quiz-best-v1';
     const best = JSON.parse(localStorage.getItem(K) || '{}');
@@ -277,11 +341,16 @@ function submit() {
       localStorage.setItem(K, JSON.stringify(best));
     }
   } catch {}
-  document.getElementById('scoreNum').textContent = score;
+  document.querySelector('#resultScreen .score').innerHTML = '<span id="scoreNum">' + score + '</span>/' + quiz.length;
   document.getElementById('scorePct').textContent = pct + '%';
   const status = document.getElementById('statusLine');
-  if (score >= 38) { status.textContent = '✅ ĐẬU (≥ 75%)'; status.className = 'status pass'; }
-  else { status.textContent = '❌ CHƯA ĐẬU — Cần ≥ 38/50'; status.className = 'status fail'; }
+  if (score >= passThreshold) {
+    status.innerHTML = '✅ ĐẬU (≥ 75%)' + (isSim ? '<br><span style="font-size:.75em; font-weight:400; color:var(--muted);">Thời gian: ' + formatElapsed() + '</span>' : '');
+    status.className = 'status pass';
+  } else {
+    status.innerHTML = '❌ CHƯA ĐẬU — Cần ≥ ' + passThreshold + '/' + quiz.length + (isSim ? '<br><span style="font-size:.75em; font-weight:400; color:var(--muted);">Thời gian: ' + formatElapsed() + (forced ? ' (hết giờ)' : '') + '</span>' : '');
+    status.className = 'status fail';
+  }
   const rv = document.getElementById('reviewList');
   rv.innerHTML = '';
   quiz.forEach((q, i) => {
@@ -302,9 +371,20 @@ function submit() {
 }
 
 function reset() {
+  stopTimer();
+  isSim = false;
+  document.getElementById('timerBar').classList.add('hidden');
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('startScreen').classList.remove('hidden');
   window.scrollTo(0, 0);
+}
+
+function formatElapsed() {
+  if (!simStartedAt) return '';
+  const totalSec = Math.floor((Date.now() - simStartedAt) / 1000);
+  const mins = Math.floor(totalSec / 60);
+  const secs = totalSec % 60;
+  return mins + ' phút ' + (secs ? secs + ' giây' : '');
 }
 </script>
 </body>

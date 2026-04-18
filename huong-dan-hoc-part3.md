@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Hướng Dẫn Học Thi Bằng Nail Pennsylvania — Phần 3
 
 Phần 3 tiếp nối bộ hướng dẫn, bắt đầu với **Mục 10: Quy Trình Pedicure Cơ Bản**. Các mục còn lại (11 – móng giả, 12 – hóa học sản phẩm, 13 – đạo đức nghề nghiệp) sẽ được bổ sung trong các lần cập nhật sau.

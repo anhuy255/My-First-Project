@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Thẻ Ghi Nhớ (Flashcards) — Phần 2
 
 **50 thẻ tiếp theo** (số 51–100) trong bộ 100 thẻ ôn thi Nail Technician Pennsylvania. Phần này tập trung vào **bệnh/rối loạn móng, dụng cụ, manicure, pedicure, móng giả, hóa chất, và đạo đức nghề nghiệp**.

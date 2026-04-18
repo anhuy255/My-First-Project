@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Hướng Dẫn Học Thi Bằng Nail Pennsylvania — Phần 1 (Mục 1–4)
 
 Tài liệu này là phần đầu của bộ hướng dẫn học thi bằng **Nail Technician tại bang Pennsylvania (PA)**, Hoa Kỳ. Phần 1 gồm 4 mục chính:

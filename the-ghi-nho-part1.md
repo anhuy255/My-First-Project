@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Thẻ Ghi Nhớ (Flashcards) — Phần 1
 
 **50 thẻ** đầu tiên trong bộ 100 thẻ ôn thi Nail Technician Pennsylvania. Chủ yếu tập trung vào **vệ sinh, an toàn, luật PA, giải phẫu móng và da**. Copy sang Anki / Quizlet / app flashcard tùy ý — cột **Front** là mặt hỏi, cột **Back** là mặt trả lời.

@@ -64,4 +64,94 @@ Một quy trình pedicure tiêu chuẩn gồm **3 giai đoạn**: trước dịc
 
 ---
 
-*Các mục 11 – 13 sẽ được bổ sung trong các lần cập nhật tiếp theo.*
+*Các mục 12 – 13 sẽ được bổ sung trong các lần cập nhật tiếp theo.*
+
+---
+
+## Mục 11 — Móng Giả (Artificial Nails)
+
+Móng giả (artificial / enhancement nails) là dịch vụ cốt lõi tại tiệm nail, chiếm doanh thu lớn và cũng là phần đề thi **hay hỏi về hóa chất, quy trình, và an toàn**. Thợ phải nắm vững các loại, quy trình đắp, bảo trì (fill-in), và tháo gỡ an toàn.
+
+### 11.1. Các loại móng giả chính
+
+**A. Acrylic (liquid & powder)**
+
+- Kết hợp **monomer (liquid)** và **polymer (powder)** → tạo phản ứng **polymerization** → đông cứng ngoài không khí.
+- Monomer tại PA phải là **EMA (ethyl methacrylate)**. **MMA (methyl methacrylate)** bị **CẤM** vì gây dị ứng nặng, làm hỏng móng, khó tháo.
+- Ưu điểm: chắc, bền, giá phải chăng.
+- Nhược điểm: có mùi, cần thông gió tốt.
+
+**B. Gel (UV / LED gel)**
+
+- Gel lỏng, đắp trên móng rồi **hong khô dưới đèn UV hoặc LED**.
+- Đèn **LED** nhanh (30–60 giây); đèn **UV** chậm hơn (1–2 phút).
+- **Hard gel**: dày, cứng, dùng để đắp dài; phải mài để tháo.
+- **Soft gel / gel polish (shellac)**: mỏng, dùng để sơn màu; tháo bằng acetone ngâm.
+- Ưu điểm: ít mùi, bóng đẹp, linh hoạt.
+- Nhược điểm: giá cao hơn, dễ bong nếu chuẩn bị móng không kỹ.
+
+**C. Dip powder**
+
+- Bôi base → nhúng móng vào bột màu → xịt activator để đông cứng.
+- Không cần đèn, khô nhanh, ít mùi.
+- **Không** nhúng chung một hũ bột cho nhiều khách (vệ sinh) — phải rắc bột ra dụng cụ riêng.
+
+**D. Wrap (silk / fiberglass)**
+
+- Dán một lớp vải lụa hoặc sợi thủy tinh lên móng rồi phủ nail glue / resin.
+- Thường dùng để **sửa móng bị nứt** hoặc gia cố móng yếu, không dùng đắp dài.
+
+**E. Tip & Form**
+
+- **Tip**: móng nhựa bán sẵn, dán lên đầu móng bằng nail glue, sau đó phủ acrylic/gel.
+- **Form**: khuôn giấy hoặc kim loại đặt dưới free edge để đắp **sculpted nail** (móng đổ khuôn, không dùng tip).
+
+### 11.2. Quy trình đắp cơ bản (acrylic / gel)
+
+- Tư vấn, **kiểm tra sức khỏe móng**; nếu có nhiễm trùng → từ chối.
+- Thực hiện **dry manicure** (không ngâm nước) để móng không nở.
+- Đẩy cuticle, buffer nhẹ bề mặt móng tự nhiên (chỉ làm mờ bóng, **không mài mỏng**).
+- Lau sạch bằng **nail dehydrator**; nếu cần, bôi **primer** (acid hoặc acid-free) một lớp mỏng — chỉ trên móng, tránh da.
+- Dán tip hoặc đặt form tùy kiểu.
+- Đắp sản phẩm (acrylic bead hoặc gel layer), tạo form đường **apex** (điểm cao nhất).
+- Hong khô dưới đèn nếu là gel; acrylic để khô tự nhiên vài phút.
+- Dũa tạo dáng (80–100 grit cho tạo hình, 180+ hoàn thiện).
+- Buffer bóng, phủ top coat hoặc sealer.
+
+### 11.3. Bảo trì (Fill-in / Rebalance)
+
+- Khách nên quay lại **mỗi 2–3 tuần** để fill phần mọc dài ở gốc.
+- Quy trình: dũa nhẹ vùng tiếp giáp, đẩy cuticle, đắp sản phẩm mới vào phần móng mới mọc, hòa với lớp cũ, dũa phẳng.
+- Nếu thấy **bong (lifting)** hoặc **nấm xanh (Pseudomonas)** dưới móng giả → **gỡ toàn bộ**, không fill đè.
+
+### 11.4. Tháo móng giả an toàn (Removal)
+
+**Acrylic / soft gel / dip**:
+
+- **Không giật, không cạy** — sẽ kéo theo lớp móng tự nhiên, làm móng mỏng và tổn thương matrix.
+- Dũa nhẹ lớp top coat/bóng bên ngoài.
+- Quấn miếng bông thấm **acetone 100%** lên móng, bọc **foil** quanh ngón, để **10–15 phút**.
+- Đẩy nhẹ lớp sản phẩm đã mềm bằng pusher hoặc que gỗ cam.
+- Buffer nhẹ, dưỡng **cuticle oil**, bôi kem tay.
+
+**Hard gel**: không tan trong acetone — phải **mài bằng e-file** từng lớp, cẩn thận không mài vào móng thật.
+
+### 11.5. An toàn & vấn đề thường gặp
+
+- **MMA**: **CẤM** tại PA; nhận biết qua mùi hóa chất rất nồng, sản phẩm rẻ bất thường, khó tháo.
+- **Over-filing** (mài quá mạnh): làm móng mỏng, đau, thậm chí tổn thương nail bed.
+- **Dị ứng (allergic contact dermatitis)**: đỏ, ngứa, sưng quanh móng — thường do gel chưa khô kịp dính da, hoặc monomer dính da. Ngưng sản phẩm, khuyên đi bác sĩ.
+- **Green nail (Pseudomonas)**: đốm xanh dưới móng giả do ẩm và vi khuẩn — **tháo móng giả**, không đắp lại, khuyên đi bác sĩ.
+- **Burn sensation dưới đèn UV/LED**: thường do lớp gel quá dày → mỏng lớp ra nhiều lần thay vì dày một lần.
+- **Giữ cọ acrylic/gel** sạch, không ngâm disinfectant (hư cọ), bảo quản tránh ánh sáng.
+
+### ✅ Checklist Mục 11
+
+- [ ] Tôi phân biệt **acrylic, gel (hard/soft), dip, wrap, tip, form**.
+- [ ] Tôi biết **MMA bị cấm**, chỉ dùng **EMA** tại PA.
+- [ ] Tôi biết dùng **dry manicure** trước khi đắp.
+- [ ] Tôi biết đèn **LED nhanh hơn đèn UV**.
+- [ ] Tôi biết fill-in mỗi **2–3 tuần**, không fill đè nấm xanh.
+- [ ] Tôi biết tháo acrylic bằng **acetone + foil 10–15 phút**, không giật.
+- [ ] Tôi biết **green nail** = Pseudomonas → tháo và khuyên đi bác sĩ.
+- [ ] Tôi tránh **over-filing** và không để sản phẩm dính da.

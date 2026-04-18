@@ -32,6 +32,12 @@
   .nav button:disabled { opacity:.4; cursor:not-allowed; }
   strong { color:var(--primary); }
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#159957">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nail PA">
 </head>
 <body>
 <header>
@@ -246,5 +252,6 @@ document.addEventListener('keydown', e => {
 });
 loadDeck();
 </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}</script>
 </body>
 </html>

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ngày Thi — Nail PA</title>
+<style>
+  :root { --primary:#159957; --accent:#155799; --bg:#f6f8fa; --card:#fff; --text:#1a1a1a; --muted:#6a737d; --border:#d0d7de; --ok:#1a7f37; --warn:#bf8700; --bad:#cf222e; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  a { color:var(--accent); text-decoration:none; }
+  header { background:linear-gradient(135deg,var(--accent),var(--primary)); color:#fff; padding:32px 20px 28px; text-align:center; }
+  header h1 { margin:0 0 6px; font-size:1.6em; font-weight:800; }
+  header p { margin:0 0 14px; opacity:.95; }
+  header .back { color:#fff; text-decoration:underline; font-size:.9em; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:14px; }
+  .stat { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22); border-radius:10px; padding:10px; text-align:center; font-size:.85em; }
+  .stat b { display:block; font-size:1.3em; font-weight:700; }
+  .container { max-width:760px; margin:0 auto; padding:16px; }
+
+  .toc { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:18px 0 24px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+  .toc h3 { margin:0 0 8px; font-size:.82em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+  .toc ol { margin:0; padding-left:20px; columns:1; }
+  .toc li { font-size:.95em; padding:3px 0; }
+  @media (min-width:560px) { .toc ol { columns:2; column-gap:20px; } }
+
+  section { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px 22px; margin-bottom:16px; box-shadow:0 2px 6px rgba(0,0,0,.05); scroll-margin-top:12px; }
+  section h2 { margin:0 0 6px; font-size:1.25em; color:var(--primary); }
+  section .sub { color:var(--muted); font-size:.9em; margin:0 0 14px; }
+  section h3 { margin:16px 0 6px; font-size:1em; }
+  section p { margin:8px 0; }
+  section ul { padding-left:20px; margin:8px 0; }
+  section li { margin-bottom:4px; }
+
+  .callout { background:#f0faf4; border:1px solid #c7e4d3; border-left:4px solid var(--primary); border-radius:8px; padding:12px 14px; margin:12px 0; font-size:.93em; }
+  .callout.warn { background:#fffbeb; border-color:#f0d98a; border-left-color:var(--warn); }
+  .callout.bad { background:#fff5f5; border-color:#f4c2c7; border-left-color:var(--bad); }
+
+  .check { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:6px; cursor:pointer; user-select:none; }
+  .check:hover { background:#f6f8fa; }
+  .check input { margin-top:3px; accent-color:var(--primary); width:18px; height:18px; flex-shrink:0; }
+  .check span { font-size:.95em; }
+  .check.done span { text-decoration:line-through; color:var(--muted); }
+
+  .timeline { position:relative; padding-left:26px; margin:10px 0; }
+  .timeline::before { content:""; position:absolute; left:8px; top:4px; bottom:4px; width:2px; background:var(--border); }
+  .step { position:relative; padding:6px 0 10px; }
+  .step::before { content:""; position:absolute; left:-22px; top:10px; width:12px; height:12px; border-radius:50%; background:var(--primary); border:3px solid #fff; box-shadow:0 0 0 1px var(--primary); }
+  .step b { display:block; color:var(--primary); font-size:.95em; }
+
+  footer { text-align:center; padding:24px 16px; color:var(--muted); font-size:.85em; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🗓️ Ngày Thi — Nail PA</h1>
+  <p>Từ lúc đăng ký đến lúc nhận bằng</p>
+  <a class="back" href="index.html">← Về trang chủ</a>
+  <div class="stats">
+    <div class="stat"><b>PSI</b>Đơn vị tổ chức</div>
+    <div class="stat"><b>$65</b>Lệ phí thi</div>
+    <div class="stat"><b>30'</b>Đến sớm</div>
+    <div class="stat"><b>2–4w</b>Chờ nhận bằng</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="toc">
+    <h3>Mục lục</h3>
+    <ol>
+      <li><a href="#register">Đăng ký thi với PSI</a></li>
+      <li><a href="#before">Chuẩn bị trước ngày thi</a></li>
+      <li><a href="#bring">Ngày thi — mang gì theo</a></li>
+      <li><a href="#checkin">Check-in tại trung tâm PSI</a></li>
+      <li><a href="#written">Phần thi lý thuyết</a></li>
+      <li><a href="#practical">Phần thi thực hành</a></li>
+      <li><a href="#after">Sau khi thi — nhận bằng</a></li>
+      <li><a href="#fail">Nếu không đậu</a></li>
+      <li><a href="#stress">Mẹo giảm căng thẳng</a></li>
+    </ol>
+  </div>
+
+  <section id="register">
+    <h2>1. Đăng ký thi với PSI</h2>
+    <p class="sub">Bước này làm <b>sau khi</b> hoàn thành 200 giờ tại trường.</p>
+    <div class="timeline">
+      <div class="step"><b>Bước 1 · Trường nộp hồ sơ</b>Trường học gửi giấy xác nhận hoàn thành chương trình cho Pennsylvania State Board of Cosmetology.</div>
+      <div class="step"><b>Bước 2 · Nhận thư duyệt</b>Hội đồng gửi thư xác nhận bạn đủ điều kiện dự thi (qua email hoặc bưu điện) — khoảng 2–3 tuần.</div>
+      <div class="step"><b>Bước 3 · Đăng ký tại PSI</b>Vào <a href="https://www.psiexams.com" target="_blank" rel="noopener">psiexams.com</a>, tạo tài khoản, chọn "Pennsylvania Cosmetology → Nail Technician".</div>
+      <div class="step"><b>Bước 4 · Chọn ngày &amp; trung tâm</b>Tìm trung tâm gần nhất (Philadelphia, Pittsburgh, Harrisburg, Allentown, Erie...). Chọn ngày còn trống.</div>
+      <div class="step"><b>Bước 5 · Đóng lệ phí</b>Khoảng <b>$65</b> cho cả lý thuyết + thực hành. Thanh toán bằng thẻ ngân hàng / credit card.</div>
+      <div class="step"><b>Bước 6 · Nhận xác nhận</b>PSI gửi email xác nhận (confirmation letter) — <b>in ra và mang theo</b> ngày thi.</div>
+    </div>
+    <div class="callout warn"><b>Lưu ý</b>: Lý thuyết và thực hành có thể thi <b>cùng ngày</b> hoặc <b>hai ngày khác nhau</b>. Khi đăng ký hãy chọn kỹ — một số trung tâm chỉ có thực hành vào cuối tuần.</div>
+  </section>
+
+  <section id="before">
+    <h2>2. Chuẩn bị trước ngày thi</h2>
+    <p class="sub">Đánh dấu từng món khi hoàn thành — tiến trình lưu trên thiết bị.</p>
+
+    <h3>48 giờ trước</h3>
+    <label class="check"><input type="checkbox" data-k="b48a"><span>Xác nhận lịch thi trên tài khoản PSI</span></label>
+    <label class="check"><input type="checkbox" data-k="b48b"><span>Kiểm tra giấy tờ tùy thân — còn hạn, có ảnh, tên khớp với đăng ký</span></label>
+    <label class="check"><input type="checkbox" data-k="b48c"><span>Kiểm tra đường đi &amp; thời gian tới trung tâm (có thể dùng Google Maps)</span></label>
+    <label class="check"><input type="checkbox" data-k="b48d"><span>Đặt báo thức đủ sớm (đến nơi trước 30 phút)</span></label>
+
+    <h3>Đêm trước</h3>
+    <label class="check"><input type="checkbox" data-k="pna"><span>In thư xác nhận PSI</span></label>
+    <label class="check"><input type="checkbox" data-k="pnb"><span>Chuẩn bị quần áo: áo &amp; quần kín đáo, sạch, giày kín mũi</span></label>
+    <label class="check"><input type="checkbox" data-k="pnc"><span>Tóc buộc gọn, móng thợ ngắn và sạch, không nước hoa nồng</span></label>
+    <label class="check"><input type="checkbox" data-k="pnd"><span>Sắp xếp toàn bộ <a href="practical.html">kit thực hành</a> — nếu thi cả thực hành</span></label>
+    <label class="check"><input type="checkbox" data-k="pne"><span>Pha mới dung dịch disinfectant (nếu sáng mai dùng)</span></label>
+    <label class="check"><input type="checkbox" data-k="pnf"><span>Ngủ sớm — ít nhất 7 tiếng</span></label>
+
+    <h3>Sáng ngày thi</h3>
+    <label class="check"><input type="checkbox" data-k="sna"><span>Ăn sáng nhẹ — tránh đồ nặng, nhiều dầu</span></label>
+    <label class="check"><input type="checkbox" data-k="snb"><span>Đi vệ sinh trước khi rời nhà</span></label>
+    <label class="check"><input type="checkbox" data-k="snc"><span>Kiểm tra lại: ID, thư PSI, kit</span></label>
+    <label class="check"><input type="checkbox" data-k="snd"><span>Ra khỏi nhà đủ sớm để đến trung tâm <b>trước 30 phút</b></span></label>
+  </section>
+
+  <section id="bring">
+    <h2>3. Ngày thi — mang gì theo</h2>
+
+    <h3>✅ Bắt buộc</h3>
+    <ul>
+      <li><b>Giấy tờ tùy thân có ảnh</b> (ít nhất một trong: bằng lái PA/bang khác, hộ chiếu, thẻ cư trú, quân đội). <b>Không chấp nhận</b>: thẻ sinh viên, thẻ bảo hiểm, giấy photo.</li>
+      <li><b>Thư xác nhận PSI</b> (confirmation letter) đã in.</li>
+      <li><b>Kit thực hành đầy đủ</b> (nếu có phần thực hành) — xem <a href="practical.html">danh sách đầy đủ</a>.</li>
+    </ul>
+
+    <h3>💡 Nên mang</h3>
+    <ul>
+      <li>Giấy tờ phụ có chữ ký (thẻ an sinh xã hội, credit card) — dự phòng.</li>
+      <li>Nước đóng chai nhỏ để uống khi chờ (một số trung tâm cho mang vào tủ riêng).</li>
+      <li>Khăn giấy / khăn tay.</li>
+      <li>Bút viết (dự phòng, dù trung tâm cung cấp).</li>
+    </ul>
+
+    <h3>❌ KHÔNG được mang vào phòng thi</h3>
+    <ul>
+      <li>Điện thoại, smartwatch, máy tính bảng, tai nghe, earbuds.</li>
+      <li>Túi xách, balo, ví lớn.</li>
+      <li>Sách vở, ghi chú, flashcard giấy.</li>
+      <li>Mũ rộng vành (che mặt camera).</li>
+      <li>Thức ăn, đồ uống nóng.</li>
+    </ul>
+    <div class="callout warn">Trung tâm PSI thường có <b>tủ khóa</b> để gửi đồ cá nhân trước khi vào phòng thi.</div>
+  </section>
+
+  <section id="checkin">
+    <h2>4. Check-in tại trung tâm PSI</h2>
+    <div class="timeline">
+      <div class="step"><b>Đến sớm 30 phút</b>Đăng ký tại quầy lễ tân. Xuất trình ID + thư PSI.</div>
+      <div class="step"><b>Kiểm tra an ninh</b>Kiểm tra túi, chụp ảnh kỹ thuật số để làm hồ sơ, có thể lấy dấu vân tay hoặc lòng bàn tay.</div>
+      <div class="step"><b>Ký giấy cam kết</b>Ký đồng ý không sao chép đề, không gian lận (candidate agreement).</div>
+      <div class="step"><b>Gửi đồ cá nhân</b>Cất điện thoại, túi vào tủ khóa. Giữ chìa khóa tủ.</div>
+      <div class="step"><b>Vào phòng thi</b>Nhân viên dẫn đến chỗ ngồi (lý thuyết) hoặc bàn thi (thực hành). Không nói chuyện với thí sinh khác.</div>
+    </div>
+  </section>
+
+  <section id="written">
+    <h2>5. Phần thi lý thuyết</h2>
+    <p class="sub">Trên máy tính — không cần kỹ năng máy tính nâng cao.</p>
+    <ul>
+      <li><b>Số câu</b>: khoảng 75–100 câu trắc nghiệm A/B/C/D.</li>
+      <li><b>Thời gian</b>: 90 phút.</li>
+      <li><b>Điểm đậu</b>: 75%.</li>
+      <li><b>Có thể đánh dấu</b> (flag) câu khó để quay lại sau.</li>
+      <li><b>Nộp bài</b>: hệ thống tự chấm; bạn thấy điểm <b>ngay lập tức</b>.</li>
+      <li>Nhân viên in <b>phiếu kết quả</b> (score report) đưa khi bạn ra khỏi phòng.</li>
+    </ul>
+    <div class="callout"><b>Chiến thuật</b>: Đi qua 1 lượt, trả lời câu dễ trước, flag câu khó. Quay lại câu khó sau cùng. <b>Không để trống</b> câu nào — đoán còn hơn bỏ.</div>
+  </section>
+
+  <section id="practical">
+    <h2>6. Phần thi thực hành</h2>
+    <p class="sub">Xem <a href="practical.html">hướng dẫn chi tiết từng trạm</a>.</p>
+    <ul>
+      <li><b>Thời gian</b>: khoảng 2 giờ.</li>
+      <li><b>Điểm đậu</b>: 75%.</li>
+      <li>Giám khảo đứng quan sát, không hướng dẫn. Họ chấm bằng bảng tiêu chí (rubric).</li>
+      <li>Làm theo thứ tự: setup → manicure → tip/sculpt → polish → cleanup.</li>
+      <li>Có thể yêu cầu mô tả <b>blood spill procedure</b> bằng miệng hoặc demo.</li>
+    </ul>
+    <div class="callout warn"><b>Người mẫu</b>: một số trung tâm PSI yêu cầu bạn tự mang người mẫu (phải ≥ 18 tuổi, không có nhiễm trùng móng/da, có ID). Một số khác cung cấp mô hình tay. <b>Xác nhận với trung tâm khi đặt lịch</b>.</div>
+  </section>
+
+  <section id="after">
+    <h2>7. Sau khi thi — nhận bằng</h2>
+    <div class="timeline">
+      <div class="step"><b>Nếu đậu cả hai phần</b>PSI gửi kết quả về PA State Board. Board phát hành bằng điện tử trong 2–4 tuần.</div>
+      <div class="step"><b>Tạo tài khoản PALS</b>Vào <a href="https://www.pals.pa.gov" target="_blank" rel="noopener">pals.pa.gov</a> để theo dõi trạng thái bằng.</div>
+      <div class="step"><b>Đóng phí cấp bằng</b>Khoảng <b>$10</b> qua cổng PALS.</div>
+      <div class="step"><b>In bằng</b>Sau khi duyệt, bạn có thể in giấy phép trực tiếp từ tài khoản PALS — <b>đây là bằng chính thức</b>, không cần chờ bản giấy qua bưu điện.</div>
+      <div class="step"><b>Treo bằng tại nơi làm việc</b>Bằng phải được treo công khai tại tiệm nail nơi bạn làm việc.</div>
+    </div>
+  </section>
+
+  <section id="fail">
+    <h2>8. Nếu không đậu</h2>
+    <div class="callout bad"><b>Đừng hoảng</b>. Rất nhiều thợ nail giỏi rớt lần đầu. Đây là <b>bài học</b>, không phải kết thúc.</div>
+    <ul>
+      <li>Chỉ phải <b>thi lại phần đã rớt</b>, không phải cả hai.</li>
+      <li>Chờ <b>tối thiểu 30 ngày</b> (tùy hội đồng) trước khi thi lại.</li>
+      <li>Đóng lại lệ phí phần thi lại (~$35–65).</li>
+      <li>Xem kỹ <b>phiếu kết quả (score report)</b> — PSI chia điểm theo chủ đề để bạn biết mình yếu phần nào.</li>
+      <li>Tập trung ôn phần yếu: làm lại <a href="quiz.html">đề thi thử</a>, đọc lại <a href="index.html#giao-trinh">giáo trình</a>, luyện <a href="flashcards.html">flashcard</a>.</li>
+    </ul>
+    <p style="font-style:italic; color:var(--muted);">Thi lại có lợi thế: bạn đã biết quy trình check-in, biết cách phòng thi, đỡ căng thẳng hơn nhiều so với lần đầu.</p>
+  </section>
+
+  <section id="stress">
+    <h2>9. Mẹo giảm căng thẳng</h2>
+    <ul>
+      <li><b>Hít thở sâu</b>: hít vào 4 giây · giữ 4 giây · thở ra 6 giây. Lặp 5 lần trước khi bước vào phòng.</li>
+      <li><b>Đừng ôn phút chót</b>: nếu chưa thuộc, giờ cũng không kịp. Thay vào đó đọc lướt flashcard cho tỉnh táo.</li>
+      <li><b>Câu hỏi khó = câu hỏi của người khác</b>: đề khó thì ai cũng thấy khó. Đừng nghĩ chỉ mình bạn khó.</li>
+      <li><b>Nói ra từng bước khi làm thực hành</b>: "Bây giờ tôi khử trùng bàn..." — giúp bạn giữ đúng quy trình và thể hiện bạn hiểu việc đang làm.</li>
+      <li><b>Rớt 1 phần không phải tận thế</b>: bạn vẫn có thể lấy bằng.</li>
+    </ul>
+    <div class="callout"><b>Nhớ rằng</b>: Bạn đã học 200 giờ, làm đề thi thử, luyện flashcard. Bạn <b>đã sẵn sàng</b>. Tự tin lên!</div>
+  </section>
+
+</div>
+
+<footer>
+  Tất cả thông tin dựa trên quy trình chuẩn của PA State Board of Cosmetology và PSI Services. Luôn xác nhận thông tin mới nhất tại <a href="https://www.dos.pa.gov" target="_blank" rel="noopener">dos.pa.gov</a> và <a href="https://www.psiexams.com" target="_blank" rel="noopener">psiexams.com</a>.
+</footer>
+
+<script>
+const STORE = 'nailpa-examday-v1';
+function load() { try { return JSON.parse(localStorage.getItem(STORE) || '{}'); } catch { return {}; } }
+function save(s) { localStorage.setItem(STORE, JSON.stringify(s)); }
+document.querySelectorAll('input[type=checkbox][data-k]').forEach(b => {
+  const state = load();
+  if (state[b.dataset.k]) { b.checked = true; b.closest('.check').classList.add('done'); }
+  b.addEventListener('change', () => {
+    const s = load();
+    s[b.dataset.k] = b.checked;
+    save(s);
+    b.closest('.check').classList.toggle('done', b.checked);
+  });
+});
+</script>
+</body>
+</html>

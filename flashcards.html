@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thẻ Ghi Nhớ — Nail PA</title>
+<style>
+  :root { --primary:#159957; --accent:#155799; --bg:#f6f8fa; --card:#fff; --text:#1a1a1a; --muted:#6a737d; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+  header { background:linear-gradient(120deg,var(--accent),var(--primary)); color:#fff; padding:20px 16px; text-align:center; }
+  header h1 { margin:0 0 8px; font-size:1.4em; }
+  header a { color:#fff; text-decoration:underline; font-size:.9em; }
+  .container { max-width:640px; margin:0 auto; padding:16px; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .controls select,.controls button { flex:1; min-width:100px; padding:10px; border:1px solid #d0d7de; border-radius:6px; background:#fff; font-size:1em; cursor:pointer; }
+  .controls button:hover { background:#eee; }
+  .progress { text-align:center; color:var(--muted); margin-bottom:8px; font-size:.9em; }
+  .card { background:var(--card); border:1px solid #d0d7de; border-radius:12px; padding:32px 20px; min-height:240px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.06); transition:transform .15s; user-select:none; }
+  .card:active { transform:scale(.98); }
+  .card .label { position:absolute; top:10px; left:16px; font-size:.75em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+  .card-inner { width:100%; position:relative; }
+  .face { font-size:1.15em; }
+  .face.front { font-weight:600; }
+  .face.back { display:none; color:var(--accent); }
+  .card.revealed .face.front { color:var(--muted); font-weight:400; font-size:.95em; margin-bottom:14px; border-bottom:1px dashed #d0d7de; padding-bottom:14px; }
+  .card.revealed .face.back { display:block; }
+  .hint { text-align:center; color:var(--muted); font-size:.85em; margin-top:10px; }
+  .nav { display:flex; gap:8px; margin-top:16px; }
+  .nav button { flex:1; padding:12px; border:1px solid var(--primary); background:#fff; color:var(--primary); border-radius:6px; font-size:1em; font-weight:600; cursor:pointer; }
+  .nav button:hover { background:var(--primary); color:#fff; }
+  .nav button:disabled { opacity:.4; cursor:not-allowed; }
+  strong { color:var(--primary); }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎴 Thẻ Ghi Nhớ — Nail PA</h1>
+  <a href="index.html">← Về trang chủ</a>
+</header>
+<div class="container">
+  <div class="controls">
+    <select id="deckSelect">
+      <option value="all">Tất cả 100 thẻ</option>
+      <option value="part1">Phần 1 (1–50)</option>
+      <option value="part2">Phần 2 (51–100)</option>
+    </select>
+    <button id="shuffleBtn">🔀 Trộn</button>
+    <button id="resetBtn">↺ Lại từ đầu</button>
+  </div>
+  <div class="progress" id="progress">–</div>
+  <div class="card" id="card" onclick="toggleCard()">
+    <span class="label" id="cardLabel">Thẻ</span>
+    <div class="card-inner">
+      <div class="face front" id="front">Bấm "Lại từ đầu" để bắt đầu</div>
+      <div class="face back" id="back"></div>
+    </div>
+  </div>
+  <div class="hint">Bấm vào thẻ để xem đáp án</div>
+  <div class="nav">
+    <button id="prevBtn" onclick="prev()">◀ Trước</button>
+    <button id="nextBtn" onclick="next()">Sau ▶</button>
+  </div>
+</div>
+<script>
+const CARDS_PART_1 = [
+  {n:1,front:'Cleaning (sanitation)',back:'Loại bỏ bụi, dầu, mảnh vụn nhìn thấy. Là <strong>bước đầu tiên</strong>, làm trước khi khử trùng.'},
+  {n:2,front:'Disinfection',back:'Diệt hầu hết vi khuẩn, virus, nấm (trừ bào tử). Tiệm nail cần đạt mức này.'},
+  {n:3,front:'Sterilization',back:'Diệt <strong>mọi</strong> vi sinh vật kể cả bào tử. Chỉ dùng trong y tế (autoclave).'},
+  {n:4,front:'EPA-registered hospital-grade disinfectant',back:'Chất khử trùng bắt buộc dùng tại tiệm nail ở PA — phải diệt khuẩn, virus, nấm.'},
+  {n:5,front:'Thời gian ngâm disinfectant tiêu chuẩn',back:'Thường <strong>10 phút</strong>; tuân theo nhãn nhà sản xuất.'},
+  {n:6,front:'Bleach khử trùng: tỷ lệ pha',back:'<strong>10% bleach + 90% nước</strong>; thay mới mỗi 24 giờ.'},
+  {n:7,front:'Alcohol 70% có phải disinfectant chính không?',back:'<strong>Không</strong>. Chỉ dùng lau bề mặt, không phải dung dịch ngâm.'},
+  {n:8,front:'Rửa tay bao lâu?',back:'Ít nhất <strong>20 giây</strong> với xà phòng + nước ấm.'},
+  {n:9,front:'Hand sanitizer tối thiểu % alcohol',back:'<strong>60%</strong> alcohol trở lên.'},
+  {n:10,front:'HBV sống được trên bề mặt khô bao lâu?',back:'<strong>Đến 7 ngày</strong> — lý do phải khử trùng kỹ.'},
+  {n:11,front:'HIV ngoài cơ thể',back:'Yếu, <strong>chết nhanh</strong>. Nhưng vẫn nguy hiểm khi tiếp xúc máu.'},
+  {n:12,front:'BBP',back:'<strong>Bloodborne Pathogens</strong> — mầm bệnh lây qua đường máu (HIV, HBV, HCV).'},
+  {n:13,front:'Universal precautions',back:'Coi <strong>mọi máu/dịch</strong> là có thể lây nhiễm; luôn dùng găng dùng-một-lần.'},
+  {n:14,front:'Multi-use vs single-use',back:'<strong>Multi-use</strong>: khử trùng lại (kềm, kéo, pusher kim loại). <strong>Single-use</strong>: bỏ sau mỗi khách (que gỗ cam, buffer, đá dũa xốp).'},
+  {n:15,front:'Que gỗ cam (orangewood stick)',back:'<strong>Single-use</strong> — bỏ sau mỗi khách, không khử trùng được.'},
+  {n:16,front:'Bồn chân giữa khách',back:'Chạy disinfectant EPA <strong>10 phút</strong> trước khi dùng cho khách sau.'},
+  {n:17,front:'Bồn chân vệ sinh hàng tuần',back:'Ngâm dung dịch khử trùng <strong>qua đêm</strong> (6–10 giờ).'},
+  {n:18,front:'Khăn bẩn giặt ở nhiệt độ',back:'Ít nhất <strong>160°F (71°C)</strong>.'},
+  {n:19,front:'Quy trình chảy máu: bước đầu',back:'<strong>Đeo găng tay dùng-một-lần</strong> trước khi chạm.'},
+  {n:20,front:'Biohazard waste',back:'Rác dính máu/dịch → đựng trong <strong>túi dán kín</strong>, dán nhãn biohazard.'},
+  {n:21,front:'PA Nail Tech: giờ học tối thiểu',back:'<strong>200 giờ</strong>.'},
+  {n:22,front:'PA Nail Tech: tuổi tối thiểu',back:'<strong>16 tuổi</strong>.'},
+  {n:23,front:'PA Nail Tech: học vấn tối thiểu',back:'<strong>Lớp 10 (10th grade)</strong> hoặc tương đương.'},
+  {n:24,front:'PA: điểm đậu mỗi phần',back:'<strong>75%</strong>.'},
+  {n:25,front:'PA: chu kỳ gia hạn bằng',back:'<strong>Mỗi 2 năm</strong>.'},
+  /* P1_CARDS */
+];
+const CARDS_PART_2 = [
+  {n:26,front:'MMA (methyl methacrylate) tại PA',back:'<strong>BỊ CẤM</strong> — gây dị ứng nặng, làm hỏng móng.'},
+  {n:27,front:'Monomer hợp pháp cho acrylic tại PA',back:'<strong>EMA (ethyl methacrylate)</strong>.'},
+  {n:28,front:'Credo blade / razor callus shaver tại PA',back:'<strong>BỊ CẤM tuyệt đối</strong>. Chỉ dùng đá nhám single-use.'},
+  {n:29,front:'Bằng hành nghề phải',back:'Treo <strong>công khai</strong> tại nơi làm việc, nhìn thấy rõ.'},
+  {n:30,front:'Thanh tra hội đồng thẩm mỹ PA',back:'Có quyền <strong>kiểm tra đột xuất</strong> trong giờ làm.'},
+  {n:31,front:'SDS',back:'<strong>Safety Data Sheet</strong> — tài liệu an toàn hóa chất, 16 mục, phải luôn có sẵn.'},
+  {n:32,front:'Ba đường vào cơ thể của hóa chất',back:'<strong>Hít (inhalation), thấm qua da (absorption), nuốt (ingestion)</strong>.'},
+  {n:33,front:'GFCI',back:'<strong>Ground Fault Circuit Interrupter</strong> — bắt buộc ở ổ điện gần bồn chân.'},
+  {n:34,front:'Bình chữa cháy cho tiệm nail',back:'<strong>Loại ABC</strong> (đa năng).'},
+  {n:35,front:'Hóa chất vào mắt xử lý',back:'Rửa mắt bằng nước sạch <strong>≥ 15 phút</strong>, rồi đến bác sĩ.'},
+  {n:36,front:'Keratin',back:'Protein cứng cấu tạo móng, tóc, lớp sừng da.'},
+  {n:37,front:'Matrix',back:'Nơi <strong>duy nhất</strong> sản sinh tế bào móng mới; tổn thương vĩnh viễn → móng không mọc lại.'},
+  {n:38,front:'Lunula',back:'Phần <strong>trắng hình lưỡi liềm</strong> ở gốc móng — là matrix nhìn thấy được.'},
+  {n:39,front:'Cuticle',back:'Lớp biểu bì mỏng trong suốt dính lên đĩa móng; bảo vệ matrix; <strong>đẩy nhẹ, không cắt sâu</strong>.'},
+  {n:40,front:'Eponychium',back:'Viền da sống phía trên cuticle; <strong>KHÔNG được cắt</strong>.'},
+  {n:41,front:'Hyponychium',back:'Lớp da <strong>dưới free edge</strong>, chặn vi khuẩn vào dưới móng.'},
+  {n:42,front:'Free edge',back:'Phần móng <strong>dài qua đầu ngón</strong>, có thể dũa/cắt.'},
+  {n:43,front:'Nail bed',back:'Lớp da dưới đĩa móng; có mạch máu và dây thần kinh.'},
+  {n:44,front:'Tốc độ mọc móng tay',back:'Khoảng <strong>3 mm/tháng</strong>; thay mới hoàn toàn <strong>4–6 tháng</strong>.'},
+  {n:45,front:'Móng chân mọc so với móng tay',back:'<strong>Chậm hơn 2–3 lần</strong>; thay mới 9–12 tháng.'},
+  {n:46,front:'Ba lớp chính của da',back:'<strong>Epidermis – Dermis – Subcutaneous (adipose)</strong>.'},
+  {n:47,front:'Epidermis có mạch máu không?',back:'<strong>KHÔNG</strong> — biểu bì không có mạch máu.'},
+  {n:48,front:'Stratum germinativum (basale)',back:'Lớp đáy biểu bì; chứa <strong>melanin</strong>; nơi sản sinh tế bào da mới.'},
+  {n:49,front:'Stratum lucidum',back:'Chỉ có ở <strong>lòng bàn tay và bàn chân</strong> (da dày).'},
+  {n:50,front:'Sebaceous gland — có ở lòng bàn tay/chân?',back:'<strong>KHÔNG</strong>. Lòng bàn tay và bàn chân <strong>không có tuyến dầu</strong>.'},
+  /* P2_CARDS */
+];
+const CARDS_PART_3 = [
+  {n:51,front:'Onychomycosis',back:'<strong>Nấm móng</strong> — móng vàng/nâu, dày, giòn. Lây → <strong>từ chối dịch vụ</strong>, khuyên đi bác sĩ.'},
+  {n:52,front:'Paronychia',back:'<strong>Viêm nhiễm quanh móng</strong> — đỏ, sưng, mủ. Nhiễm trùng → từ chối.'},
+  {n:53,front:'Onychia',back:'Viêm giường móng — đỏ, mủ dưới đĩa móng. Nhiễm trùng → từ chối.'},
+  {n:54,front:'Green nail (Pseudomonas)',back:'Đốm xanh lục dưới móng giả do vi khuẩn <em>Pseudomonas aeruginosa</em>. <strong>Tháo móng giả</strong>, không đắp lại, khuyên bác sĩ.'},
+  {n:55,front:'Verruca / wart',back:'<strong>Mụn cóc</strong> do <strong>HPV</strong> — rất lây. Không làm trên vùng có mụn cóc.'},
+  {n:56,front:'Scabies',back:'<strong>Ghẻ</strong> do ký sinh trùng cái ghẻ; lây, ngứa — từ chối dịch vụ.'},
+  {n:57,front:'Tinea pedis / tinea manuum',back:'Nấm da chân / tay — từ chối dịch vụ.'},
+  {n:58,front:'Onychocryptosis',back:'<strong>Móng mọc ngược</strong> — nếu có mủ/nhiễm trùng, khuyên bác sĩ. Phòng bằng cách cắt móng <strong>thẳng ngang</strong>.'},
+  {n:59,front:'Onycholysis',back:'Móng tách rời khỏi nail bed từ free edge; nếu không nhiễm trùng, có thể làm nhẹ.'},
+  {n:60,front:'Onychorrhexis',back:'Móng nứt, xước dọc do hóa chất, khô; <strong>có thể làm</strong> với dưỡng ẩm.'},
+  {n:61,front:"Beau's lines",back:'Đường lõm <strong>ngang</strong> do sốt cao, chấn thương matrix, stress hệ thống.'},
+  {n:62,front:'Leukonychia',back:'Đốm <strong>trắng</strong> trên móng do va đập nhẹ — không nguy hiểm.'},
+  {n:63,front:'Melanonychia',back:'Sọc / đốm <strong>tối</strong> trên móng (melanin). Cần theo dõi, có thể do bệnh lý.'},
+  {n:64,front:'Pterygium (nhẹ vs nặng)',back:'Nhẹ: đẩy nhẹ, dưỡng. <strong>Nặng</strong>: <strong>không cắt</strong>, khuyên bác sĩ.'},
+  {n:65,front:'Onychophagy',back:'<strong>Cắn móng</strong> (thói quen); đắp giả + dưỡng là giải pháp.'},
+  {n:66,front:'Hangnail',back:'<strong>Xước măng rô</strong> — da sống viền móng rách. Cắt gọn, không kéo.'},
+  {n:67,front:'Callus',back:'<strong>Da chai</strong> — dày ở gót chân do ma sát. Bào bằng đá nhám single-use.'},
+  {n:68,front:'Corn',back:'<strong>Mắt cá</strong> — chai cứng có nhân ở ngón chân. <strong>Không tự cắt</strong>, khuyên bác sĩ.'},
+  {n:69,front:'Khi nào thợ nail từ chối dịch vụ?',back:'Khi thấy <strong>nhiễm trùng, mủ, chảy dịch, vết thương hở</strong> hoặc dấu hiệu bệnh truyền nhiễm.'},
+  {n:70,front:'Tiền tố "onycho-"',back:'Nghĩa là <strong>móng</strong> (ví dụ: onychomycosis = nấm móng).'},
+  {n:71,front:'Tiền tố "para-"',back:'Nghĩa là <strong>bên cạnh</strong> (paronychia = quanh móng).'},
+  {n:72,front:'Hậu tố "-itis"',back:'Nghĩa là <strong>viêm</strong> (onychitis = viêm móng).'},
+  {n:73,front:'Nail file grit 80–100',back:'Dùng cho <strong>móng giả thô</strong> (acrylic còn dày).'},
+  {n:74,front:'Nail file grit 180',back:'Dùng cho <strong>móng tự nhiên</strong> — không quá mạnh.'},
+  {n:75,front:'Buffer 3 mặt',back:'Thứ tự: <strong>nhám → mịn → bóng</strong>.'},
+  /* P3_CARDS */
+];
+const CARDS_PART_4 = [
+  {n:76,front:'Đèn UV vs LED',back:'<strong>LED</strong> khô gel nhanh hơn (30–60 giây) so với đèn UV (1–2 phút).'},
+  {n:77,front:'Dappen dish',back:'Bát nhỏ đựng monomer/acrylic liquid khi đắp; khử trùng sau mỗi khách.'},
+  {n:78,front:'Nail drill / e-file',back:'Dùng cho móng giả; <strong>không</strong> dùng tốc độ cao trên móng tự nhiên; bit phải khử trùng.'},
+  {n:79,front:'Paraffin warmer',back:'Làm mềm da; <strong>không</strong> dùng chung sáp — dùng túi lót hoặc thay sáp.'},
+  {n:80,front:'Manicure cơ bản: bước đầu tiên sau tư vấn',back:'<strong>Tháo sơn cũ</strong> bằng bông + polish remover.'},
+  {n:81,front:'Dũa móng tự nhiên kỹ thuật đúng',back:'<strong>Một chiều</strong> từ ngoài vào trong (corner → center), không dũa tới lui.'},
+  {n:82,front:'Ba lớp sơn móng',back:'<strong>Base coat → Color coat → Top coat</strong>.'},
+  {n:83,front:'Dry / reconditioning manicure',back:'Manicure <strong>không ngâm nước</strong>; dùng trước khi đắp gel/acrylic.'},
+  {n:84,front:'7 hình dáng móng cơ bản',back:'square – squoval – round – oval – almond – stiletto – coffin.'},
+  {n:85,front:'French manicure',back:'Nền trong/hồng + <strong>free edge trắng</strong> tạo "smile line".'},
+  {n:86,front:'Pedicure: nhiệt độ nước ngâm chân',back:'<strong>37–40°C (100–104°F)</strong>, ấm nhẹ với khách tiểu đường.'},
+  {n:87,front:'Cắt móng chân đúng cách',back:'<strong>Thẳng ngang</strong> để tránh móng mọc ngược.'},
+  {n:88,front:'Khách mang thai — tránh gì?',back:'<strong>Massage mạnh</strong> ở mắt cá và bắp chân (huyệt co tử cung).'},
+  {n:89,front:'Khách tiểu đường — lưu ý?',back:'Không cắt da, nước ấm nhẹ, không dùng đá nhám mạnh, theo dõi dấu hiệu nhiễm trùng.'},
+  {n:90,front:'Acrylic = ? + ?',back:'<strong>Monomer (liquid)</strong> + <strong>Polymer (powder)</strong> → phản ứng <strong>polymerization</strong>.'},
+  {n:91,front:'Polymerization',back:'Phản ứng nối nhiều monomer thành chuỗi polymer → cứng lại thành acrylic.'},
+  {n:92,front:'Hard gel vs soft gel',back:'<strong>Hard gel</strong> dày, cứng, phải <strong>mài</strong> để tháo. <strong>Soft gel</strong> (gel polish) tan trong <strong>acetone</strong>.'},
+  {n:93,front:'Dip powder',back:'Base → nhúng bột → activator. Không cần đèn. <strong>Không</strong> nhúng chung hũ cho nhiều khách.'},
+  {n:94,front:'Wrap (silk / fiberglass)',back:'Dán vải/sợi + resin để <strong>sửa móng nứt</strong> hoặc gia cố.'},
+  {n:95,front:'Fill-in chu kỳ',back:'<strong>Mỗi 2–3 tuần</strong>. Nếu có nấm xanh / bong → tháo, không fill đè.'},
+  {n:96,front:'Tháo acrylic đúng cách',back:'Dũa lớp bóng → quấn bông <strong>acetone 100% + foil 10–15 phút</strong> → đẩy nhẹ. <strong>Không giật</strong>.'},
+  {n:97,front:'Primer (có axit)',back:'Chứa <strong>methacrylic acid</strong> — ăn da. Chỉ chấm trên móng, một lớp mỏng.'},
+  {n:98,front:'Acetone',back:'Dung môi dễ cháy, dễ bay hơi; dùng tháo sơn và acrylic.'},
+  {n:99,front:'Nail glue',back:'<strong>Cyanoacrylate</strong> — dính da tức thì; tách bằng acetone.'},
+  {n:100,front:'Xử lý khiếu nại khách: 4 bước',back:'<strong>Lắng nghe → Thừa nhận cảm xúc → Xin lỗi chân thành → Đề xuất giải pháp</strong>.'},
+  /* P4_CARDS */
+];
+const ALL = () => CARDS_PART_1.concat(CARDS_PART_2, CARDS_PART_3, CARDS_PART_4);
+
+let deck = [];
+let idx = 0;
+
+function render() {
+  const card = document.getElementById('card');
+  const front = document.getElementById('front');
+  const back = document.getElementById('back');
+  const label = document.getElementById('cardLabel');
+  const progress = document.getElementById('progress');
+  card.classList.remove('revealed');
+  if (!deck.length) {
+    front.innerHTML = 'Chưa có thẻ. Chọn bộ và bấm "Lại từ đầu".';
+    back.innerHTML = '';
+    label.textContent = '';
+    progress.textContent = '–';
+    return;
+  }
+  const c = deck[idx];
+  front.innerHTML = c.front;
+  back.innerHTML = c.back;
+  label.textContent = 'Thẻ #' + c.n;
+  progress.textContent = (idx + 1) + ' / ' + deck.length;
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === deck.length - 1;
+}
+function toggleCard() { document.getElementById('card').classList.toggle('revealed'); }
+function next() { if (idx < deck.length - 1) { idx++; render(); } }
+function prev() { if (idx > 0) { idx--; render(); } }
+function loadDeck() {
+  const v = document.getElementById('deckSelect').value;
+  if (v === 'part1') deck = CARDS_PART_1.concat(CARDS_PART_2).slice();
+  else if (v === 'part2') deck = CARDS_PART_3.concat(CARDS_PART_4).slice();
+  else deck = ALL().slice();
+  idx = 0;
+  render();
+}
+function shuffle() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  idx = 0;
+  render();
+}
+document.getElementById('deckSelect').addEventListener('change', loadDeck);
+document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+document.getElementById('resetBtn').addEventListener('click', loadDeck);
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') next();
+  else if (e.key === 'ArrowLeft') prev();
+  else if (e.key === ' ') { e.preventDefault(); toggleCard(); }
+});
+loadDeck();
+</script>
+</body>
+</html>

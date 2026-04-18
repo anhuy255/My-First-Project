@@ -115,6 +115,17 @@
     </div>
   </section>
 
+  <section class="detail">
+    <h2>💾 Sao lưu &amp; khôi phục tiến trình</h2>
+    <p class="sub">Tải về một tệp nhỏ để sao lưu, hoặc dùng để chuyển sang thiết bị khác.</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button id="exportBtn" style="flex:1; min-width:140px; padding:10px 14px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-size:.95em; font-weight:600; cursor:pointer;">⬇️ Tải tiến trình</button>
+      <button id="importBtn" style="flex:1; min-width:140px; padding:10px 14px; background:#fff; color:var(--primary); border:1px solid var(--primary); border-radius:8px; font-size:.95em; font-weight:600; cursor:pointer;">⬆️ Khôi phục từ tệp</button>
+      <input type="file" id="importFile" accept=".json,application/json" style="display:none;">
+    </div>
+    <p style="color:var(--muted); font-size:.85em; margin:10px 0 0;">Tệp sao lưu chứa dữ liệu tiến trình trên trình duyệt này — không chứa thông tin cá nhân.</p>
+  </section>
+
   <button class="reset-btn" id="resetBtn">↺ Xóa toàn bộ tiến trình</button>
 
 </div>
@@ -222,6 +233,62 @@ function initReset() {
     renderMini();
   });
 }
+
+const ALL_KEYS = [K_GUIDE, K_PRACTICAL, K_QUIZ, K_FLASH, K_PHRASE];
+
+function exportProgress() {
+  const payload = { app:'nailpa-study', version:1, exportedAt:new Date().toISOString(), data:{} };
+  ALL_KEYS.forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v != null) payload.data[k] = v;
+  });
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = 'nailpa-progress-' + stamp + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function importProgress(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const payload = JSON.parse(e.target.result);
+      if (!payload || payload.app !== 'nailpa-study' || !payload.data) {
+        alert('Tệp không hợp lệ. Hãy chọn tệp .json đã tải từ trang này.');
+        return;
+      }
+      if (!confirm('Khôi phục sẽ thay thế tiến trình hiện tại. Tiếp tục?')) return;
+      ALL_KEYS.forEach(k => {
+        if (payload.data[k] != null) localStorage.setItem(k, payload.data[k]);
+      });
+      // Refresh the guide checkboxes visually
+      const state = loadJSON(K_GUIDE);
+      document.querySelectorAll('input[type=checkbox][data-g]').forEach(b => {
+        b.checked = !!state[b.dataset.g];
+        b.closest('.check').classList.toggle('done', b.checked);
+      });
+      renderMini();
+      alert('Đã khôi phục tiến trình!');
+    } catch {
+      alert('Không đọc được tệp. Đảm bảo tệp JSON còn nguyên.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportProgress);
+document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) importProgress(f);
+  e.target.value = '';
+});
 
 initGuideChecks();
 initReset();

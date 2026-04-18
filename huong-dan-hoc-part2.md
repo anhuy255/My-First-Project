@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Hướng Dẫn Học Thi Bằng Nail Pennsylvania — Phần 2 (Mục 5–9)
 
 Phần 2 tập trung vào kiến thức **giải phẫu và kỹ thuật** — nền tảng quan trọng cho cả phần thi lý thuyết và thực hành.

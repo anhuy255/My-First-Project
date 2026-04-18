@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Đề Thi Thử Số 1 — Nail Technician Pennsylvania
 
 **Tổng số câu**: 50 câu trắc nghiệm (A / B / C / D)

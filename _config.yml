@@ -1,0 +1,12 @@
+title: Hướng Dẫn Thi Bằng Nail PA
+description: Bộ tài liệu tiếng Việt ôn thi Nail Technician tại Pennsylvania
+theme: jekyll-theme-cayman
+lang: vi
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+exclude:
+  - README.md

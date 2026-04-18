@@ -64,8 +64,6 @@ Một quy trình pedicure tiêu chuẩn gồm **3 giai đoạn**: trước dịc
 
 ---
 
-*Các mục 12 – 13 sẽ được bổ sung trong các lần cập nhật tiếp theo.*
-
 ---
 
 ## Mục 11 — Móng Giả (Artificial Nails)
@@ -155,3 +153,151 @@ Móng giả (artificial / enhancement nails) là dịch vụ cốt lõi tại ti
 - [ ] Tôi biết tháo acrylic bằng **acetone + foil 10–15 phút**, không giật.
 - [ ] Tôi biết **green nail** = Pseudomonas → tháo và khuyên đi bác sĩ.
 - [ ] Tôi tránh **over-filing** và không để sản phẩm dính da.
+
+---
+
+## Mục 12 — Hóa Chất Trong Ngành Nail
+
+Đề thi PA có **5–10%** câu hỏi về hóa chất và hóa học sản phẩm. Thợ không cần là nhà hóa học, nhưng phải biết **tên, công dụng, rủi ro, và cách bảo quản** các chất chính.
+
+### 12.1. Các khái niệm hóa học cơ bản
+
+- **Monomer** — một phân tử nhỏ. Trong nail: **liquid** của acrylic system (ví dụ **EMA – ethyl methacrylate**).
+- **Polymer** — chuỗi dài do nhiều monomer nối lại. Trong nail: **powder** acrylic.
+- **Polymerization** — phản ứng monomer + polymer (có catalyst) tạo thành acrylic cứng.
+- **Catalyst / initiator** — chất xúc tác khởi đầu polymerization (ví dụ **benzoyl peroxide** trong acrylic powder).
+- **Solvent** — dung môi hòa tan chất khác. Phổ biến: **acetone**, **ethyl acetate**.
+- **pH** — từ 0 (acid mạnh) đến 14 (base mạnh); nước trung tính = 7. Móng khỏe hơi acid (~5).
+
+### 12.2. Các hóa chất chính trong tiệm
+
+| Sản phẩm | Bản chất | Công dụng | Rủi ro chính |
+|----------|----------|-----------|---------------|
+| **EMA monomer** | Liquid acrylic | Kết hợp với powder thành acrylic | Dị ứng, kích ứng da, hơi độc nếu hít nhiều |
+| **MMA monomer** | **CẤM tại PA** | (không dùng) | Dị ứng nặng, hỏng móng vĩnh viễn |
+| **Acrylic polymer powder** | Bột PMMA | Tạo lớp acrylic | Bụi khi dũa → cần khẩu trang |
+| **UV/LED gel** | Oligomer + photo-initiator | Móng gel, sơn gel | Dị ứng nếu dính da, kích ứng mắt |
+| **Acetone** | Dung môi | Tháo sơn, tháo acrylic | Dễ cháy, khô da, gây chóng mặt |
+| **Non-acetone remover** | Ethyl acetate | Tháo sơn nhẹ | Ít khô da hơn, vẫn dễ cháy |
+| **Primer (acid)** | Methacrylic acid | Tăng bám acrylic trên móng | Ăn da, phải dùng găng, chỉ chấm móng |
+| **Primer (acid-free)** | Tương tự nhưng dịu hơn | Dùng phổ biến hiện nay | Ít ăn da, vẫn cần tránh dính da |
+| **Nail dehydrator** | Isopropyl alcohol | Khử dầu trên móng trước primer/gel | Dễ bay hơi, dễ cháy |
+| **Nail glue** | Cyanoacrylate | Dán tip | Dính da tức thì — dùng acetone để tách |
+| **Cuticle remover** | Kiềm nhẹ (KOH/NaOH) | Mềm cuticle | Rát nếu để lâu trên da sống |
+| **Base / top coat** | Nitrocellulose + dung môi | Lớp lót, lớp phủ sơn | Dễ cháy |
+| **Disinfectant (quat/phenolic)** | EPA-registered | Khử trùng dụng cụ, bề mặt | Ăn da, mắt; ngâm đúng tỷ lệ |
+
+### 12.3. Ba đường vào cơ thể (nhắc lại)
+
+- **Hít (inhalation)** — hơi monomer, bụi dũa → cần quạt hút, khẩu trang N95.
+- **Thấm qua da (absorption)** — acrylic liquid, primer → cần găng nitrile, không để dính da.
+- **Nuốt (ingestion)** — ăn uống tại bàn làm việc → **cấm**.
+
+### 12.4. Bảo quản hóa chất an toàn
+
+- Luôn **đậy kín nắp** sau khi dùng.
+- Bảo quản ở nơi **thoáng mát, tránh ánh nắng và nguồn nhiệt** — vì nhiều chất dễ cháy.
+- Dán nhãn **đầy đủ**: tên sản phẩm, nhà sản xuất, ngày mở. Không đựng vào chai không nhãn.
+- Không đổ monomer, acetone, primer xuống bồn rửa — tuân thủ hướng dẫn xử lý chất thải địa phương.
+- Để **SDS** gần nơi lưu trữ hóa chất.
+- Chai **acetone** và **monomer** nên để trong chai **có nắp bơm nhỏ (pump)** để giảm bay hơi.
+
+### 12.5. Dấu hiệu tiếp xúc hóa chất quá mức
+
+- Nhức đầu, chóng mặt, buồn nôn.
+- Mắt cay, chảy nước mắt.
+- Da đỏ, ngứa, nổi mẩn (contact dermatitis).
+- Khó thở, ho khan.
+- Dị ứng sau nhiều lần tiếp xúc — có thể xuất hiện bất ngờ sau nhiều tháng/năm.
+
+Biện pháp: thông gió, đeo PPE (găng, khẩu trang, kính), nghỉ khi có dấu hiệu, xem SDS để sơ cứu đúng.
+
+### ✅ Checklist Mục 12
+
+- [ ] Tôi hiểu **monomer**, **polymer**, **polymerization**, **catalyst**, **solvent**.
+- [ ] Tôi biết **EMA được phép**, **MMA bị cấm** tại PA.
+- [ ] Tôi biết **acetone** là dung môi dễ cháy, dùng tháo acrylic.
+- [ ] Tôi biết **primer** có thể ăn da — phải chấm đúng cách.
+- [ ] Tôi biết **ba đường vào cơ thể** của hóa chất.
+- [ ] Tôi biết **SDS** phải luôn có sẵn tại tiệm.
+- [ ] Tôi biết cách bảo quản hóa chất an toàn (đậy nắp, dán nhãn, tránh nhiệt).
+
+---
+
+## Mục 13 — Đạo Đức Nghề Nghiệp Và Dịch Vụ Khách Hàng
+
+Phần này chiếm khoảng **5%** đề thi nhưng là **phần dễ ăn điểm** nếu nắm vững các nguyên tắc. Ngoài ra, đạo đức nghề nghiệp là nền tảng giữ uy tín tiệm và giấy phép của bạn.
+
+### 13.1. Nguyên tắc đạo đức nghề nghiệp
+
+- **Trung thực** với khách về dịch vụ, sản phẩm, giá.
+- **Giữ phạm vi hành nghề (scope of practice)** — không chẩn đoán bệnh, không làm dịch vụ ngoài bằng cấp.
+- **Tôn trọng quyền riêng tư**: thông tin khách (sức khỏe, liên hệ) không chia sẻ với người khác.
+- **Không phân biệt đối xử** dựa trên chủng tộc, giới tính, tôn giáo, khuynh hướng tình dục, khuyết tật.
+- **Cạnh tranh lành mạnh**: không nói xấu đồng nghiệp hay tiệm khác.
+- **Giữ bằng hợp lệ và hiển thị công khai** — hành nghề khi bằng hết hạn là phạm pháp.
+- **Báo cáo** các sự cố (chảy máu, phản ứng dị ứng) theo quy định.
+
+### 13.2. Giao tiếp với khách
+
+- **Mời chào** niềm nở, giữ nụ cười chuyên nghiệp.
+- **Lắng nghe chủ động**: nhìn vào mắt khách, xác nhận lại yêu cầu trước khi làm.
+- **Tư vấn** dịch vụ phù hợp, giải thích lợi ích/rủi ro.
+- **Kiểm soát tông giọng và cử chỉ** — giữ bình tĩnh kể cả khi khách khó chịu.
+- **Tránh chủ đề nhạy cảm**: chính trị, tôn giáo, đời tư.
+- **Không dùng điện thoại cá nhân** khi đang làm khách.
+
+### 13.3. Xử lý khiếu nại của khách
+
+1. **Lắng nghe hết** mà không ngắt lời.
+2. **Thừa nhận cảm xúc** của khách ("Tôi hiểu bạn đang không hài lòng").
+3. **Xin lỗi** một cách chân thành, kể cả khi bạn không sai hoàn toàn.
+4. **Đề xuất giải pháp** — sửa miễn phí, giảm giá, hoàn tiền theo chính sách tiệm.
+5. **Ghi nhận** để cải thiện.
+6. **Không tranh cãi** trước mặt khách khác.
+
+### 13.4. Vệ sinh cá nhân và hình ảnh chuyên nghiệp
+
+- **Đồng phục** sạch, gọn, kín đáo.
+- **Tóc** buộc gọn, không rủ xuống khách.
+- **Móng tay** thợ ngắn, sạch, có thể sơn nhã.
+- **Vệ sinh răng miệng** tốt; tránh ăn đồ nặng mùi trước giờ làm.
+- **Tắm gội hàng ngày**; dùng deodorant — **không** nước hoa quá nồng (có khách dị ứng).
+- **Rửa tay trước và sau mỗi khách** — vừa là vệ sinh, vừa là thông điệp chuyên nghiệp.
+
+### 13.5. Chăm sóc sau dịch vụ (Client retention)
+
+- Đề nghị **đặt lịch lần sau** trước khi khách rời.
+- Gợi ý sản phẩm **chăm sóc tại nhà** (cuticle oil, lotion).
+- **Cảm ơn** khách và tiễn ra cửa.
+- Duy trì **hồ sơ khách** (loại móng, màu đã dùng, dị ứng nếu có) — giúp khách quay lại thấy được chăm sóc cá nhân.
+
+### 13.6. Trách nhiệm pháp lý
+
+- Luôn làm dịch vụ **trong phạm vi bằng**. Nếu không chắc → từ chối + giới thiệu.
+- **Không tự ý cắt da bệnh, cắt mụn cóc, điều trị nấm** — đó là phần việc của bác sĩ.
+- Nếu khách bị thương khi làm dịch vụ: sơ cứu, ghi sự việc, thông báo chủ tiệm; trong trường hợp nặng, gọi **911**.
+- Hiểu **bảo hiểm trách nhiệm nghề nghiệp (liability insurance)** — nhiều tiệm yêu cầu thợ có.
+
+### ✅ Checklist Mục 13
+
+- [ ] Tôi hành nghề **trong phạm vi bằng**, không chẩn đoán bệnh.
+- [ ] Tôi **không phân biệt đối xử** với bất kỳ khách nào.
+- [ ] Tôi **giữ kín** thông tin khách.
+- [ ] Tôi biết **4 bước xử lý khiếu nại**: lắng nghe → thừa nhận → xin lỗi → giải quyết.
+- [ ] Tôi giữ **vệ sinh cá nhân và đồng phục** chuyên nghiệp.
+- [ ] Tôi **treo bằng công khai** và không hành nghề khi bằng hết hạn.
+- [ ] Tôi biết gọi **911** khi có sự cố y tế nghiêm trọng.
+
+---
+
+## Tổng Kết Phần 3
+
+Phần 3 đã hoàn tất 4 mục cuối của giáo trình:
+
+10. **Pedicure cơ bản** — 3 giai đoạn, lưu ý khách tiểu đường/mang thai.
+11. **Móng giả** — acrylic, gel, dip, wrap, tip, form; fill & removal an toàn.
+12. **Hóa chất ngành nail** — monomer/polymer, EMA vs. MMA, SDS, bảo quản.
+13. **Đạo đức nghề nghiệp** — phạm vi hành nghề, giao tiếp, khiếu nại, pháp lý.
+
+Kết hợp với **Phần 1** (kỳ thi, luật, vệ sinh, an toàn) và **Phần 2** (giải phẫu, da, bệnh móng, dụng cụ, manicure), bạn đã có toàn bộ lý thuyết cần cho kỳ thi PA. Bước tiếp theo: **làm 3 đề thi thử** và **ôn flashcard** để củng cố ghi nhớ.

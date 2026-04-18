@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiến Trình Học — Nail PA</title>
+<style>
+  :root { --primary:#159957; --accent:#155799; --bg:#f6f8fa; --card:#fff; --text:#1a1a1a; --muted:#6a737d; --border:#d0d7de; --ok:#1a7f37; --warn:#bf8700; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  a { color:var(--accent); text-decoration:none; }
+  header { background:linear-gradient(135deg,var(--accent),var(--primary)); color:#fff; padding:28px 20px; text-align:center; }
+  header h1 { margin:0 0 6px; font-size:1.5em; font-weight:800; }
+  header p { margin:0 0 10px; opacity:.95; }
+  header .back { color:#fff; text-decoration:underline; font-size:.9em; }
+  .container { max-width:760px; margin:0 auto; padding:16px; }
+
+  .overall { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin:0 0 16px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+  .overall .big { font-size:2.6em; font-weight:800; color:var(--primary); line-height:1; margin:4px 0 2px; }
+  .overall .sub { color:var(--muted); font-size:.9em; }
+  .bar { height:10px; background:#e1e4e8; border-radius:5px; overflow:hidden; margin-top:12px; }
+  .bar > span { display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--primary)); transition:width .4s; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:20px; }
+  .mini { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .mini .lbl { font-size:.78em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; margin-bottom:4px; }
+  .mini h3 { margin:0 0 4px; font-size:1.02em; }
+  .mini .val { font-size:1.4em; font-weight:700; color:var(--primary); }
+  .mini .done { color:var(--ok); }
+  .mini .none { color:var(--muted); }
+  .mini .minibar { height:5px; background:#e1e4e8; border-radius:3px; overflow:hidden; margin-top:8px; }
+  .mini .minibar > span { display:block; height:100%; background:var(--primary); }
+  .mini a { display:inline-block; margin-top:6px; font-size:.85em; color:var(--accent); }
+
+  section.detail { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px 22px; margin-bottom:16px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+  section.detail h2 { margin:0 0 4px; font-size:1.15em; color:var(--primary); }
+  section.detail .sub { color:var(--muted); font-size:.9em; margin:0 0 14px; }
+  section.detail .part-hdr { margin:16px 0 6px; font-size:.82em; color:var(--muted); text-transform:uppercase; font-weight:700; letter-spacing:.06em; }
+
+  .check { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:6px; cursor:pointer; }
+  .check:hover { background:#f6f8fa; }
+  .check input { margin-top:3px; accent-color:var(--primary); width:18px; height:18px; }
+  .check span { font-size:.95em; }
+  .check.done span { text-decoration:line-through; color:var(--muted); }
+
+  .best { display:flex; gap:12px; margin-top:8px; }
+  .best .card { flex:1; background:#f0faf4; border:1px solid #c7e4d3; border-radius:8px; padding:10px 12px; text-align:center; }
+  .best .card.none { background:#f6f8fa; border-color:var(--border); }
+  .best .score { font-size:1.4em; font-weight:700; color:var(--primary); }
+  .best .none .score { color:var(--muted); }
+  .best .label { font-size:.8em; color:var(--muted); }
+
+  .reset-btn { display:block; margin:16px auto 8px; padding:10px 18px; background:#fff; color:var(--muted); border:1px solid var(--border); border-radius:24px; font-size:.88em; cursor:pointer; }
+  .reset-btn:hover { color:#cf222e; border-color:#cf222e; }
+
+  footer { text-align:center; padding:24px 16px; color:var(--muted); font-size:.85em; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📊 Tiến Trình Học</h1>
+  <p>Theo dõi bạn đã học đến đâu — dữ liệu lưu trên thiết bị của bạn</p>
+  <a class="back" href="index.html">← Về trang chủ</a>
+</header>
+
+<div class="container">
+
+  <div class="overall">
+    <div class="sub">TỔNG TIẾN ĐỘ</div>
+    <div class="big"><span id="overallPct">0</span>%</div>
+    <div class="sub" id="overallLine">Bắt đầu nào!</div>
+    <div class="bar"><span id="overallBar" style="width:0%"></span></div>
+  </div>
+
+  <div class="grid" id="miniGrid">
+    <!-- filled by JS -->
+  </div>
+
+  <section class="detail">
+    <h2>📖 Giáo trình lý thuyết — 13 mục</h2>
+    <p class="sub">Đánh dấu mục bạn đã đọc xong.</p>
+
+    <div class="part-hdr">Phần 1 · <a href="huong-dan-hoc-part1.html">Mở</a></div>
+    <label class="check"><input type="checkbox" data-g="g1"><span>Mục 1 · Giới thiệu về kỳ thi PA</span></label>
+    <label class="check"><input type="checkbox" data-g="g2"><span>Mục 2 · Luật và quy định bang PA</span></label>
+    <label class="check"><input type="checkbox" data-g="g3"><span>Mục 3 · Vệ sinh, khử trùng, kiểm soát nhiễm khuẩn</span></label>
+    <label class="check"><input type="checkbox" data-g="g4"><span>Mục 4 · An toàn (hóa chất, điện, cháy nổ)</span></label>
+
+    <div class="part-hdr">Phần 2 · <a href="huong-dan-hoc-part2.html">Mở</a></div>
+    <label class="check"><input type="checkbox" data-g="g5"><span>Mục 5 · Giải phẫu móng</span></label>
+    <label class="check"><input type="checkbox" data-g="g6"><span>Mục 6 · Da và lớp biểu bì quanh móng</span></label>
+    <label class="check"><input type="checkbox" data-g="g7"><span>Mục 7 · Bệnh và rối loạn của móng</span></label>
+    <label class="check"><input type="checkbox" data-g="g8"><span>Mục 8 · Dụng cụ và thiết bị</span></label>
+    <label class="check"><input type="checkbox" data-g="g9"><span>Mục 9 · Quy trình manicure cơ bản</span></label>
+
+    <div class="part-hdr">Phần 3 · <a href="huong-dan-hoc-part3.html">Mở</a></div>
+    <label class="check"><input type="checkbox" data-g="g10"><span>Mục 10 · Quy trình pedicure cơ bản</span></label>
+    <label class="check"><input type="checkbox" data-g="g11"><span>Mục 11 · Móng giả (acrylic, gel, tip...)</span></label>
+    <label class="check"><input type="checkbox" data-g="g12"><span>Mục 12 · Hóa chất trong ngành nail</span></label>
+    <label class="check"><input type="checkbox" data-g="g13"><span>Mục 13 · Đạo đức nghề nghiệp</span></label>
+  </section>
+
+  <section class="detail">
+    <h2>📝 Đề thi thử — điểm cao nhất</h2>
+    <p class="sub">Tự động cập nhật khi bạn nộp bài trên trang <a href="quiz.html">Đề thi thử</a>.</p>
+    <div class="best">
+      <div class="card none" id="quizCard1">
+        <div class="label">Đề 1</div>
+        <div class="score" id="quizBest1">—</div>
+      </div>
+      <div class="card none" id="quizCard2">
+        <div class="label">Đề 2</div>
+        <div class="score" id="quizBest2">—</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail">
+    <h2>💾 Sao lưu &amp; khôi phục tiến trình</h2>
+    <p class="sub">Tải về một tệp nhỏ để sao lưu, hoặc dùng để chuyển sang thiết bị khác.</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button id="exportBtn" style="flex:1; min-width:140px; padding:10px 14px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-size:.95em; font-weight:600; cursor:pointer;">⬇️ Tải tiến trình</button>
+      <button id="importBtn" style="flex:1; min-width:140px; padding:10px 14px; background:#fff; color:var(--primary); border:1px solid var(--primary); border-radius:8px; font-size:.95em; font-weight:600; cursor:pointer;">⬆️ Khôi phục từ tệp</button>
+      <input type="file" id="importFile" accept=".json,application/json" style="display:none;">
+    </div>
+    <p style="color:var(--muted); font-size:.85em; margin:10px 0 0;">Tệp sao lưu chứa dữ liệu tiến trình trên trình duyệt này — không chứa thông tin cá nhân.</p>
+  </section>
+
+  <button class="reset-btn" id="resetBtn">↺ Xóa toàn bộ tiến trình</button>
+
+</div>
+
+<footer>
+  Tiến trình được lưu trong trình duyệt này (localStorage). Xóa lịch sử / đổi thiết bị sẽ reset.
+</footer>
+
+<script>
+const K_GUIDE = 'nailpa-guide-v1';
+const K_PRACTICAL = 'nailpa-practical-v1';
+const K_QUIZ = 'nailpa-quiz-best-v1';
+const K_FLASH = 'nailpa-flash-seen-v1';
+const K_PHRASE = 'nailpa-phrase-seen-v1';
+
+const TOTAL_GUIDE = 13;
+const TOTAL_FLASH = 100;
+const TOTAL_PHRASE = 42;
+const TOTAL_PRACTICAL = 96;
+
+function loadJSON(k) { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } }
+function saveJSON(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+function loadSet(k) { try { return new Set(JSON.parse(localStorage.getItem(k) || '[]')); } catch { return new Set(); } }
+
+function countTrue(obj) { return Object.values(obj).filter(Boolean).length; }
+
+function renderMini() {
+  const guide = loadJSON(K_GUIDE);
+  const practical = loadJSON(K_PRACTICAL);
+  const quiz = loadJSON(K_QUIZ);
+  const flash = loadSet(K_FLASH);
+  const phrase = loadSet(K_PHRASE);
+
+  const guideDone = countTrue(guide);
+  const practicalDone = countTrue(practical);
+
+  const parts = [
+    {name:'📖 Giáo trình', done:guideDone, total:TOTAL_GUIDE, href:'#giao-trinh'},
+    {name:'🎴 Flashcard', done:flash.size, total:TOTAL_FLASH, href:'flashcards.html'},
+    {name:'📝 Đề thi thử', done:(quiz[1]||quiz[2])?(Object.keys(quiz).length):0, total:2, href:'quiz.html', labelOverride:Object.keys(quiz).length+' / 2 đề đã làm'},
+    {name:'🗣️ Tiếng Anh', done:phrase.size, total:TOTAL_PHRASE, href:'phrases.html'},
+    {name:'🧪 Thực hành', done:practicalDone, total:TOTAL_PRACTICAL, href:'practical.html'},
+  ];
+
+  const grid = document.getElementById('miniGrid');
+  grid.innerHTML = parts.map(p => {
+    const pct = p.total ? Math.round(p.done / p.total * 100) : 0;
+    const label = p.labelOverride || (p.done + ' / ' + p.total);
+    const cls = p.done === 0 ? 'none' : (pct === 100 ? 'done' : '');
+    return `<div class="mini">
+      <div class="lbl">${p.name}</div>
+      <div class="val ${cls}">${label}</div>
+      <div class="minibar"><span style="width:${pct}%"></span></div>
+      <a href="${p.href}">Tiếp tục →</a>
+    </div>`;
+  }).join('');
+
+  // Overall: weighted by totals
+  const totalAll = TOTAL_GUIDE + TOTAL_FLASH + 2 + TOTAL_PHRASE + TOTAL_PRACTICAL;
+  const doneAll = guideDone + flash.size + Object.keys(quiz).length + phrase.size + practicalDone;
+  const overallPct = Math.round(doneAll / totalAll * 100);
+  document.getElementById('overallPct').textContent = overallPct;
+  document.getElementById('overallBar').style.width = overallPct + '%';
+  let msg = 'Bắt đầu nào!';
+  if (overallPct >= 100) msg = 'Hoàn thành! 🎉 Bạn sẵn sàng đi thi.';
+  else if (overallPct >= 75) msg = 'Sắp xong rồi — cố thêm chút nữa!';
+  else if (overallPct >= 40) msg = 'Đang tiến bộ tốt.';
+  else if (overallPct > 0) msg = 'Bắt đầu tốt. Tiếp tục đều đặn.';
+  document.getElementById('overallLine').textContent = msg;
+
+  // Quiz card details
+  for (const n of [1, 2]) {
+    const score = quiz[n];
+    const cardEl = document.getElementById('quizCard' + n);
+    const el = document.getElementById('quizBest' + n);
+    if (score != null) {
+      el.textContent = score + '/50 (' + Math.round(score / 50 * 100) + '%)';
+      cardEl.classList.remove('none');
+    } else {
+      el.textContent = '—';
+      cardEl.classList.add('none');
+    }
+  }
+}
+
+function initGuideChecks() {
+  const state = loadJSON(K_GUIDE);
+  document.querySelectorAll('input[type=checkbox][data-g]').forEach(b => {
+    if (state[b.dataset.g]) { b.checked = true; b.closest('.check').classList.add('done'); }
+    b.addEventListener('change', () => {
+      const s = loadJSON(K_GUIDE);
+      s[b.dataset.g] = b.checked;
+      saveJSON(K_GUIDE, s);
+      b.closest('.check').classList.toggle('done', b.checked);
+      renderMini();
+    });
+  });
+}
+
+function initReset() {
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (!confirm('Xóa toàn bộ tiến trình (giáo trình, flashcard, đề thi, phrase, thực hành)?')) return;
+    [K_GUIDE, K_PRACTICAL, K_QUIZ, K_FLASH, K_PHRASE].forEach(k => localStorage.removeItem(k));
+    document.querySelectorAll('input[type=checkbox][data-g]').forEach(b => { b.checked = false; b.closest('.check').classList.remove('done'); });
+    renderMini();
+  });
+}
+
+const ALL_KEYS = [K_GUIDE, K_PRACTICAL, K_QUIZ, K_FLASH, K_PHRASE];
+
+function exportProgress() {
+  const payload = { app:'nailpa-study', version:1, exportedAt:new Date().toISOString(), data:{} };
+  ALL_KEYS.forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v != null) payload.data[k] = v;
+  });
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = 'nailpa-progress-' + stamp + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function importProgress(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const payload = JSON.parse(e.target.result);
+      if (!payload || payload.app !== 'nailpa-study' || !payload.data) {
+        alert('Tệp không hợp lệ. Hãy chọn tệp .json đã tải từ trang này.');
+        return;
+      }
+      if (!confirm('Khôi phục sẽ thay thế tiến trình hiện tại. Tiếp tục?')) return;
+      ALL_KEYS.forEach(k => {
+        if (payload.data[k] != null) localStorage.setItem(k, payload.data[k]);
+      });
+      // Refresh the guide checkboxes visually
+      const state = loadJSON(K_GUIDE);
+      document.querySelectorAll('input[type=checkbox][data-g]').forEach(b => {
+        b.checked = !!state[b.dataset.g];
+        b.closest('.check').classList.toggle('done', b.checked);
+      });
+      renderMini();
+      alert('Đã khôi phục tiến trình!');
+    } catch {
+      alert('Không đọc được tệp. Đảm bảo tệp JSON còn nguyên.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportProgress);
+document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) importProgress(f);
+  e.target.value = '';
+});
+
+initGuideChecks();
+initReset();
+renderMini();
+</script>
+</body>
+</html>
